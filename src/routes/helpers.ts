@@ -1,66 +1,64 @@
 import type { RouteRecordRaw } from 'vue-router';
 import { nanoid } from 'nanoid';
-import type { Menu, Route } from './types';
+import type { VNodeChild } from 'vue';
 
-export function createRoutesWithLayout(routes: Route[]): RouteRecordRaw[] {
-  function setupLayout(routes: Route[], top = false) {
+export function createRoutesWithLayout(routes: RouteRecordRaw[]): RouteRecordRaw[] {
+  function setupLayout(routes: RouteRecordRaw[]) {
     return routes.map((route) => {
       if (route.children && route.children.length > 0) {
-        route.children = setupLayout(route.children, false);
+        route.children = setupLayout(route.children);
       }
 
-      const { layout } = route.meta || {} as any;
-
-      if (top) {
-        if (route.meta?.layout !== false) {
-          return {
-            path: route.path,
-            component: layout,
-            children: route.path === '/' ? [route] : [{ ...route, path: '' }],
-            meta: {
-              isLayout: true,
-            },
-          } as unknown as RouteRecordRaw;
-        }
-      }
-
-      if (route.meta?.layout) {
-        return {
+      if (route.meta && route.meta.layout) {
+        const { layout } = route.meta;
+        const record: RouteRecordRaw = {
           path: route.path,
           component: layout,
           children: [{ ...route, path: '' }],
           meta: {
             isLayout: true,
           },
-        } as unknown as RouteRecordRaw;
+        };
+
+        if (route.children?.length && !route.redirect) {
+          record.redirect = route.children[0].path;
+        }
+
+        return record;
       }
 
-      return route as RouteRecordRaw;
+      return route;
     });
   }
-
   return setupLayout(routes);
 }
 
-export function createMenuFromRoutes(routes: Route[]) {
-  function traverse(routes: Route[], parentPath: string = ''): any {
-    return routes.map((route) => {
-      const path = [parentPath, route.path].filter(t => Boolean(t)).join('/');
+interface Menu {
+  key: string;
+  title: string;
+  path: string;
+  icon?: () => VNodeChild;
+  children?: Menu[];
+}
 
+export function createMenuFromRoutes(routes: RouteRecordRaw[]) {
+  const menus: Menu[] = [];
+
+  routes.forEach((route) => {
+    if (!route.meta?.hiddenInMenu) {
       const menu: Menu = {
         key: nanoid(),
-        path,
+        path: route.path,
         title: route.meta?.title || '',
-        icon: '',
+        icon: route.meta?.icon,
       };
-
-      if (route.children && route.children.length > 0) {
-        menu.children = traverse(route.children, route.path);
+      if (route.children?.some(child => !child.meta?.hiddenInMenu)) {
+        menu.children = createMenuFromRoutes(route.children);
       }
 
-      return menu;
-    });
-  }
+      menus.push(menu);
+    }
+  });
 
-  return traverse(routes);
+  return menus;
 }

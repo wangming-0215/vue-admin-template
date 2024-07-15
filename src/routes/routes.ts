@@ -1,3 +1,7 @@
+import type { RouteRecordRaw } from 'vue-router';
 import { dashboardRoute, formRoute } from './modules';
 
-export const routes = [dashboardRoute, formRoute];
+export const routes: RouteRecordRaw[] = [
+  dashboardRoute,
+  formRoute,
+];

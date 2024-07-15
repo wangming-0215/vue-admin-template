@@ -1,6 +1,6 @@
-import type { Route } from '../types';
+import type { RouteRecordRaw } from 'vue-router';
 
-const formRoute: Route = {
+const formRoute: RouteRecordRaw = {
   path: '/form',
   meta: {
     layout: () => import('~/layouts/MainLayout/index.vue'),
@@ -9,7 +9,7 @@ const formRoute: Route = {
   },
   children: [
     {
-      path: '',
+      path: '/form/basic',
       name: '/form/basic',
       component: () => import('~/features/dashboard/index.vue'),
       meta: {
@@ -18,12 +18,21 @@ const formRoute: Route = {
       },
     },
     {
-      path: 'advanced',
+      path: '/form/advanced',
       name: '/form/advanced',
       component: () => import('~/features/dashboard/index.vue'),
       meta: {
         title: '高级表单',
         requiresAuth: false,
+      },
+    },
+    {
+      path: '/form/hidden-in-menus',
+      name: '/form/hidden-in-menus',
+      component: () => import('~/features/dashboard/index.vue'),
+      meta: {
+        title: '菜单隐藏',
+        hiddenInMenu: true,
       },
     },
   ],

@@ -1,6 +1,12 @@
 import chroma from 'chroma-js';
 import type { GlobalThemeOverrides } from 'naive-ui';
-import type { NaiveColorAction, NaiveThemeColor, NaiveThemeColorKey, Palette, PaletteKey } from './types';
+import type {
+  NaiveColorAction,
+  NaiveThemeColor,
+  NaiveThemeColorKey,
+  Palette,
+  PaletteKey,
+} from './types';
 
 /**
  * 从主题设置创建适配 naive ui 主题色
@@ -35,9 +41,26 @@ export function createNaiveThemeColors(palette: Palette): NaiveThemeColor {
  * @param palette
  */
 export function createNaiveThemeOverrides(palette: Palette): GlobalThemeOverrides {
+  const fontFamily = '"Noto Sans SC",'
+    + ' ui-sans-serif,'
+    + ' system-ui,'
+    + ' -apple-system,'
+    + ' BlinkMacSystemFont,'
+    + ' "Segoe UI",'
+    + ' Roboto,'
+    + ' "Helvetica Neue",'
+    + ' Arial,'
+    + ' "Noto Sans",'
+    + ' sans-serif,'
+    + ' "Apple Color Emoji",'
+    + ' "Segoe UI Emoji",'
+    + ' "Segoe UI Symbol",'
+    + ' "Noto Color Emoji"';
+
   return {
     common: {
       ...createNaiveThemeColors(palette),
+      fontFamily,
     },
   };
 }

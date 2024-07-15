@@ -1,17 +1,12 @@
 <script lang="ts" setup>
-import { createMenuFromRoutes, routes } from '~/routes';
-
 defineOptions({ name: 'MainLayout', inheritAttrs: false });
-
-window.console.log('MainLayout setup');
-
-const menus = createMenuFromRoutes(routes);
 
 // #f7fafc
 </script>
 
 <template>
-  <header absolute left-240px h-48px flex="~ items-center" p="x-8px" bg-primary-color style="width: calc(100% - 240px)">
+  <RouterView />
+  <!-- <header absolute left-240px h-48px flex="~ items-center" p="x-8px" bg-primary-color style="width: calc(100% - 240px)">
     Header
   </header>
   <div class="layout-side-bar" w-240px>
@@ -25,5 +20,5 @@ const menus = createMenuFromRoutes(routes);
     <div w-full flex flex-auto flex-col>
       <RouterView />
     </div>
-  </div>
+  </div> -->
 </template>

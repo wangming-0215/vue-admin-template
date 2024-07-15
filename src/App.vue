@@ -5,7 +5,8 @@ const theme = useThemeStore();
 </script>
 
 <template>
-  <n-config-provider :theme-overrides="theme.naiveThemeOverride" :abstract="true">
+  <NConfigProvider :theme-overrides="theme.naiveThemeOverride" :abstract="true">
     <RouterView />
-  </n-config-provider>
+    <NGlobalStyle />
+  </NConfigProvider>
 </template>

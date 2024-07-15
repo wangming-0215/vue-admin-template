@@ -4,12 +4,12 @@
     "Attributify",
     "colord",
     "pinia",
+    "remixicon",
     "sider",
+    "tailwindcss",
     "unplugin",
     "webfont"
   ],
-  // Enable the ESlint flat config support
-  "eslint.experimental.useFlatConfig": true,
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,
   "editor.formatOnSave": false,
@@ -27,5 +27,6 @@
     "vue",
     "html",
     "json",
-  ]
+  ],
+  "css.lint.unknownAtRules": "ignore",
 }

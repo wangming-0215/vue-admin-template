@@ -1,7 +1,12 @@
 import { computed, effectScope, onScopeDispose, ref, toRefs, watch } from 'vue';
 import type { GlobalThemeOverrides } from 'naive-ui';
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { addCssVarsToHtml, createNaiveThemeOverrides, createThemeColorVars, defaultTheme } from '~/theme';
+import {
+  addCssVarsToHtml,
+  createNaiveThemeOverrides,
+  createThemeColorVars,
+  defaultTheme,
+} from '~/theme';
 import type { PaletteKey, Theme } from '~/theme';
 
 export const useThemeStore = defineStore('theme', () => {

@@ -3,7 +3,7 @@ import defineConfig from '@antfu/eslint-config';
 
 export default defineConfig(
   {
-    unocss: true,
+    unocss: false,
     jsonc: false,
     stylistic: {
       semi: true,
