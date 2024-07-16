@@ -3,7 +3,7 @@ import { TheThemeProvider } from './theme';
 </script>
 
 <template>
-  <TheThemeProvider>
+  <TheThemeProvider mode="light">
     <RouterView />
   </TheThemeProvider>
 </template>

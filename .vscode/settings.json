@@ -1,6 +1,7 @@
 {
   "cSpell.words": [
     "antfu",
+    "appbar",
     "Attributify",
     "colord",
     "Neue",
@@ -12,6 +13,7 @@
     "sider",
     "tailwindcss",
     "unplugin",
+    "Vuejs",
     "webfont"
   ],
   // Disable the default formatter, use eslint instead

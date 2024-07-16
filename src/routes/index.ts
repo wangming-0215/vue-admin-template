@@ -1,4 +1,4 @@
-import type { App, Component, DefineComponent, VNodeChild } from 'vue';
+import type { App, Component, DefineComponent } from 'vue';
 import type { RouteRecordInfo } from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router';
 import { createMenuFromRoutes, createRoutesWithLayout } from './helpers';
@@ -22,6 +22,7 @@ export async function setupRouter(app: App) {
 }
 
 export * from './helpers';
+export * from './typings';
 export { routes };
 
 declare module 'vue-router' {
@@ -34,7 +35,7 @@ declare module 'vue-router' {
     /** 高亮 */
     activeMenu?: string;
     /** 菜单 icon */
-    icon?: () => VNodeChild;
+    icon?: Component | DefineComponent;
   }
 
   export interface TypesConfig {

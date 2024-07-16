@@ -1,6 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { nanoid } from 'nanoid';
-import type { VNodeChild } from 'vue';
+import type { Menu } from './typings';
 
 export function createRoutesWithLayout(routes: RouteRecordRaw[]): RouteRecordRaw[] {
   function setupLayout(routes: RouteRecordRaw[]) {
@@ -33,21 +32,13 @@ export function createRoutesWithLayout(routes: RouteRecordRaw[]): RouteRecordRaw
   return setupLayout(routes);
 }
 
-interface Menu {
-  key: string;
-  label: string;
-  path: string;
-  icon?: () => VNodeChild;
-  children?: Menu[];
-}
-
 export function createMenuFromRoutes(routes: RouteRecordRaw[]) {
   const menus: Menu[] = [];
 
   routes.forEach((route) => {
     if (!route.meta?.hiddenInMenu) {
       const menu: Menu = {
-        key: nanoid(),
+        key: route.name as string,
         path: route.path,
         label: route.meta?.title || '',
         icon: route.meta?.icon,

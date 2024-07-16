@@ -1,11 +1,14 @@
+import { RiInformation2Line } from '@remixicon/vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 const formRoute: RouteRecordRaw = {
   path: '/form',
+  name: '/form',
   meta: {
     layout: () => import('~/layouts/MainLayout/index.vue'),
     title: '表单',
     requiresAuth: false,
+    icon: RiInformation2Line,
   },
   children: [
     {

@@ -1,4 +1,4 @@
-import type { GlobalThemeOverrides } from 'naive-ui';
+import { type GlobalThemeOverrides, darkTheme, lightTheme } from 'naive-ui';
 
 export const fontFamily = [
   '"Noto Sans SC"',
@@ -27,7 +27,7 @@ export const fontSize = {
 } as const;
 
 /**
- * 字体相关
+ * 字体/字号
  */
 function createTypography() {
   return {
@@ -49,8 +49,10 @@ function createTypography() {
 function createNaiveThemeLight(): GlobalThemeOverrides & { name: 'light' } {
   return {
     common: {
+      ...lightTheme.common,
       ...createTypography(),
       bodyColor: '#f7fafc',
+      borderRadius: '4px',
     },
     name: 'light',
   };
@@ -63,7 +65,11 @@ function createNaiveThemeLight(): GlobalThemeOverrides & { name: 'light' } {
 function createNaiveThemeDark(): GlobalThemeOverrides & { name: 'dark' } {
   return {
     common: {
+      ...darkTheme.common,
       ...createTypography(),
+      borderRadius: '4px',
+      bodyColor: '#090a0b',
+      cardColor: '#121517',
     },
     name: 'dark',
   };

@@ -1,8 +1,9 @@
 import type { PropType } from 'vue';
-import { computed, defineComponent, watch } from 'vue';
+import { computed, defineComponent, provide, toRef, watch } from 'vue';
 import type { GlobalThemeOverrides } from 'naive-ui';
-import { NConfigProvider, darkTheme } from 'naive-ui';
+import { NConfigProvider } from 'naive-ui';
 import createNaiveTheme from './createNaiveTheme';
+import { themeModeContextKey } from './useThemeMode';
 
 /**
  * 创建 style 标签
@@ -80,6 +81,15 @@ function getPaletteFromThemeToken(token: GlobalThemeOverrides['common']) {
   }, {} as NaiveThemeColor);
 }
 
+function toggleDarkMode(darkMode = false) {
+  const DARK_CLASS = 'dark';
+  if (darkMode) {
+    document.documentElement.classList.add(DARK_CLASS);
+  } else {
+    document.documentElement.classList.remove(DARK_CLASS);
+  }
+}
+
 export default defineComponent({
   name: 'TheThemeProvider',
   inheritAttrs: false,
@@ -90,15 +100,19 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const theme = computed(() => props.mode === 'light' ? null : darkTheme);
-    const themeOverrides = computed(() => createNaiveTheme(props.mode));
+    const theme = computed(() => createNaiveTheme(props.mode));
 
-    watch(themeOverrides, (theme) => {
+    provide(themeModeContextKey, toRef(() => props.mode));
+
+    watch(() => props.mode, (mode) => {
+      toggleDarkMode(mode === 'dark');
+    }, { immediate: true });
+
+    watch(theme, (theme) => {
       window.console.log('theme.common: \n', theme.common);
       addThemeVarsToHtml({
         ...getPaletteFromThemeToken(theme.common),
         fontFamily: theme.common?.fontFamily,
-        layoutBgColor: theme.common?.bodyColor,
         fontSizeSmall: theme.common?.fontSizeSmall,
         baseFontSize: theme.common?.fontSize,
         fontSizeMedium: theme.common?.fontSizeMedium,
@@ -108,12 +122,18 @@ export default defineComponent({
         textColorRegular: theme.common?.textColor2,
         textColorSecondary: theme.common?.textColor3,
         textColorDisabled: theme.common?.textColorDisabled,
+        boxShadowSmall: theme.common?.boxShadow1,
+        boxShadowMedium: theme.common?.boxShadow2,
+        boxShadowLarge: theme.common?.boxShadow3,
+        borderColor: theme.common?.borderColor,
+        dividerColor: theme.common?.dividerColor,
+        borderRadiusSmall: theme.common?.borderRadiusSmall,
+        borderRadiusMedium: theme.common?.borderRadius,
       });
     }, { immediate: true });
 
     return {
       theme,
-      themeOverrides,
     };
   },
   render() {
@@ -121,8 +141,7 @@ export default defineComponent({
       <NConfigProvider
         abstract
         preflightStyleDisabled
-        theme={this.theme}
-        themeOverrides={this.themeOverrides}
+        themeOverrides={this.theme}
       >
         {this.$slots.default?.()}
       </NConfigProvider>

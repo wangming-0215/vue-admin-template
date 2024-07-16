@@ -1,4 +1,3 @@
-import { h } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
 import { RiDashboard2Line } from '@remixicon/vue';
 
@@ -10,7 +9,7 @@ const dashboardRoute: RouteRecordRaw = {
     title: 'Dashboard',
     requiresAuth: false,
     layout: () => import('~/layouts/MainLayout/index.vue'),
-    icon: () => h(RiDashboard2Line),
+    icon: RiDashboard2Line,
   },
 };
 
