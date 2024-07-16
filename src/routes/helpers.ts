@@ -35,7 +35,7 @@ export function createRoutesWithLayout(routes: RouteRecordRaw[]): RouteRecordRaw
 
 interface Menu {
   key: string;
-  title: string;
+  label: string;
   path: string;
   icon?: () => VNodeChild;
   children?: Menu[];
@@ -49,7 +49,7 @@ export function createMenuFromRoutes(routes: RouteRecordRaw[]) {
       const menu: Menu = {
         key: nanoid(),
         path: route.path,
-        title: route.meta?.title || '',
+        label: route.meta?.title || '',
         icon: route.meta?.icon,
       };
       if (route.children?.some(child => !child.meta?.hiddenInMenu)) {

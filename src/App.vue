@@ -1,12 +1,9 @@
 <script lang="ts" setup>
-import { useThemeStore } from './store/modules/theme';
-
-const theme = useThemeStore();
+import { TheThemeProvider } from './theme';
 </script>
 
 <template>
-  <NConfigProvider :theme-overrides="theme.naiveThemeOverride" :abstract="true">
+  <TheThemeProvider>
     <RouterView />
-    <NGlobalStyle />
-  </NConfigProvider>
+  </TheThemeProvider>
 </template>

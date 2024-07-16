@@ -11,10 +11,7 @@
     },
     "outDir": "dist",
     "resolveJsonModule": true,
-    "types": [
-      "node",
-      "vite/client",
-    ],
+    "types": ["node"],
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,

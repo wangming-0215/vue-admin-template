@@ -1,29 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
-  width: 100%;
-  background-color: #f7fafc;
+  box-sizing: border-box;
 }
 
 body {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  min-height: 100%;
-  width: 100%;
+  margin: 0;
+  color: #212636;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: var(--layout-bg-color);
+}
+
+body, html {
+  height: 100%;
 }
 
 #app {
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  position: relative;
+  min-height: 100%;
 }

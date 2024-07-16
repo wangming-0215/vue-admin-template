@@ -9,9 +9,22 @@ export default defineConfig(
       semi: true,
     },
   },
-  {
-    rules: {
-      curly: ['error', 'multi-line'],
-    },
+).override('antfu/stylistic/rules', {
+  rules: {
+    'curly': ['error', 'multi-line', 'consistent'],
+    'style/brace-style': ['error', '1tbs'],
+    'antfu/if-newline': 'off',
   },
-);
+}).override('antfu/vue/rules', {
+  rules: {
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'always',
+        normal: 'always',
+        component: 'always',
+      },
+      svg: 'always',
+      math: 'always',
+    }],
+  },
+});

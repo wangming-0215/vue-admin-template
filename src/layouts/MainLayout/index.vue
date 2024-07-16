@@ -1,10 +1,19 @@
 <script lang="ts" setup>
+import { computed } from 'vue';
+import type { MenuOption } from 'naive-ui/es/menu/src/interface';
+import { createMenuFromRoutes, routes } from '~/routes';
+
 defineOptions({ name: 'MainLayout', inheritAttrs: false });
+
+const menus = computed(() => {
+  return createMenuFromRoutes(routes) as unknown as MenuOption[];
+});
 
 // #f7fafc
 </script>
 
 <template>
+  <!-- <NMenu :options="menus" /> -->
   <RouterView />
   <!-- <header absolute left-240px h-48px flex="~ items-center" p="x-8px" bg-primary-color style="width: calc(100% - 240px)">
     Header
