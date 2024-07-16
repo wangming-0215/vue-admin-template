@@ -27,8 +27,11 @@ const palette = computed(() => {
     </div>
     <div class="m-16px">
       <NButton type="primary">
-        Primary
+        确定
       </NButton>
+    </div>
+    <div>
+      鸿蒙字体
     </div>
   </div>
 </template>

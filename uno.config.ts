@@ -25,9 +25,16 @@ export default defineConfig<Theme>({
   theme: {
     colors: {
       ...getThemeColors(),
+      'layout-bg': 'var(--layout-bg-color)',
+      'text': {
+        primary: 'var(--text-color-primary)',
+        regular: 'var(--text-color-regular)',
+        secondary: 'var(--text-color-secondary)',
+        disabled: 'var(--text-color-disabled)',
+      },
     },
-    boxShadow: {
-      sider: '2px 0 8px 0 rgb(29, 35, 41, 0.05)',
+    fontSize: {
+      base: 'var(--base-font-size)',
     },
   },
 });
