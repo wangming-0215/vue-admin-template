@@ -1,2 +1,3 @@
-export { default as dashboardRoute } from './dashboard';
-export { default as formRoute } from './form';
+export { default as DASHBOARD_ROUTE } from './dashboard';
+export { default as FORM_ROUTE } from './form';
+export { default as PALETTE_ROUTE } from './palette';

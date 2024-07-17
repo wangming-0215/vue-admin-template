@@ -10,20 +10,18 @@ export function createRoutesWithLayout(routes: RouteRecordRaw[]): RouteRecordRaw
 
       if (route.meta && route.meta.layout) {
         const { layout } = route.meta;
-        const record: RouteRecordRaw = {
+        const childRoute = { ...route, path: '' } as RouteRecordRaw;
+        if (route.children?.length && !route.redirect) {
+          childRoute.redirect = route.children[0].path;
+        }
+        return {
           path: route.path,
           component: layout,
-          children: [{ ...route, path: '' }],
+          children: [childRoute],
           meta: {
             isLayout: true,
           },
         };
-
-        if (route.children?.length && !route.redirect) {
-          record.redirect = route.children[0].path;
-        }
-
-        return record;
       }
 
       return route;

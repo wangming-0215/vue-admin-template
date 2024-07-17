@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import { RiDashboard2Line } from '@remixicon/vue';
 
-const dashboardRoute: RouteRecordRaw = {
+const DASHBOARD_ROUTE: RouteRecordRaw = {
   path: '/',
   name: '/',
   component: () => import('~/features/dashboard/index.vue'),
@@ -13,4 +13,4 @@ const dashboardRoute: RouteRecordRaw = {
   },
 };
 
-export default dashboardRoute;
+export default DASHBOARD_ROUTE;

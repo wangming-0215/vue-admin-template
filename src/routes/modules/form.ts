@@ -1,7 +1,7 @@
 import { RiInformation2Line } from '@remixicon/vue';
 import type { RouteRecordRaw } from 'vue-router';
 
-const formRoute: RouteRecordRaw = {
+const FORM_ROUTE: RouteRecordRaw = {
   path: '/form',
   name: '/form',
   meta: {
@@ -14,7 +14,7 @@ const formRoute: RouteRecordRaw = {
     {
       path: '/form/basic',
       name: '/form/basic',
-      component: () => import('~/features/dashboard/index.vue'),
+      component: () => import('~/features/form/basic/index.vue'),
       meta: {
         title: '基础表单',
         requiresAuth: false,
@@ -23,7 +23,7 @@ const formRoute: RouteRecordRaw = {
     {
       path: '/form/advanced',
       name: '/form/advanced',
-      component: () => import('~/features/dashboard/index.vue'),
+      component: () => import('~/features/form/advanced/index.vue'),
       meta: {
         title: '高级表单',
         requiresAuth: false,
@@ -41,4 +41,4 @@ const formRoute: RouteRecordRaw = {
   ],
 };
 
-export default formRoute;
+export default FORM_ROUTE;

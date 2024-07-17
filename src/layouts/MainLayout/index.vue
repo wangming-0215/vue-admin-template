@@ -1,25 +1,34 @@
 <script lang="ts" setup>
-import { computed, h } from 'vue';
+import { computed, h, ref } from 'vue';
 import type { MenuOption } from 'naive-ui/es/menu/src/interface';
 import { RouterLink, useRoute } from 'vue-router';
-import { RiVuejsFill } from '@remixicon/vue';
-import type { MenuProps } from 'naive-ui';
-import { type Menu, createMenuFromRoutes, routes } from '~/routes';
+import {
+  RiMenuFold3Line,
+  RiMenuUnfold3Line,
+  RiMoonLine,
+  RiSunLine,
+  RiVuejsFill,
+} from '@remixicon/vue';
+import { type Menu, menus } from '~/routes';
 import { useTheme } from '~/theme';
-import { renderIcon } from '~/utils';
+import { getAssetUrl, renderIcon } from '~/utils';
+import { useAppStore } from '~/store/modules/app';
 
 defineOptions({ name: 'MainLayout', inheritAttrs: false });
 
-const { token, mode } = useTheme();
-const route = useRoute();
+const collapsedWidth = 64;
 
-const menus = computed(() => transformToMenuOptions(createMenuFromRoutes(routes)));
+const route = useRoute();
+const { token, mode } = useTheme();
+const appStore = useAppStore();
+const collapsed = ref<boolean>(false);
+const options = computed(() => transformToMenuOptions(menus));
 const cssVars = computed(() => {
   return {
     '--content-bg': token.value.bodyColor,
-    '--sidebar-bg': mode.value === 'dark' ? '#202427' : '#121621',
-    '--appbar-bg': mode.value === 'dark' ? '#1c1c1c' : '#fff',
-    '--sidebar-width': '280px',
+    '--sidebar-bg': mode.value === 'dark' ? '#121517' : '#f9fafb',
+    '--appbar-bg': mode.value === 'dark' ? token.value.bodyColor : '#fff',
+    '--sidebar-width': collapsed.value ? `${collapsedWidth + 16}px` : '280px',
   };
 });
 const selectedKey = computed(() => {
@@ -27,20 +36,6 @@ const selectedKey = computed(() => {
   const name = route.name as string;
 
   return (hiddenInMenu ? activeMenu : name) || name;
-});
-const menuThemeOverrides = computed<MenuProps['themeOverrides']>(() => {
-  if (mode.value === 'dark') {
-    return {
-      itemColorHoverInverted: '#292d2f',
-      itemTextColorActiveInverted: 'rgb(51, 54, 57)',
-      itemTextColorActiveHoverInverted: 'rgb(51, 54, 57)',
-      itemIconColorActiveInverted: 'rgb(51, 54, 57)',
-      itemIconColorActiveHoverInverted: 'rgb(51, 54, 57)',
-    };
-  }
-  return {
-    itemColorHoverInverted: '#1b1f2a',
-  };
 });
 
 /**
@@ -68,29 +63,128 @@ function transformToMenuOptions(menus: Menu[]) {
 
   return options;
 }
+
+// const expandedKeys = ref<string[]>([]);
+
+// watch(
+//   () => route.name,
+//   () => {
+//     updateExpandedKeys();
+//   },
+//   { immediate: true },
+// );
+
+// function updateExpandedKeys() {
+//   if (!selectedKey.value) {
+//     expandedKeys.value = [];
+//     return;
+//   }
+//   expandedKeys.value = getSelectedMenuKeys(selectedKey.value, menus.value);
+// }
+
+// /**
+//  * 获取当前选中菜单的父子菜单 key
+//  * @param selectedKey
+//  * @param menus
+//  */
+// function getSelectedMenuKeys(selectedKey: string, menus: Menu[]) {
+//   const keys: string[] = [];
+
+//   menus.some((menu) => {
+//     const path = findMenuPath(selectedKey, menu);
+
+//     if (path) {
+//       keys.push(...path);
+//     }
+
+//     return !!path?.length;
+//   });
+
+//   return keys;
+// }
+
+// /**
+//  * 深度优先搜索
+//  * @param targetKey
+//  * @param menu
+//  */
+// function findMenuPath(targetKey: string, menu: Menu) {
+//   const path: string[] = [];
+
+//   function dfs(item: Menu): boolean {
+//     path.push(item.key);
+
+//     if (item.key === targetKey) {
+//       return true;
+//     }
+
+//     if (item.children) {
+//       for (const child of item.children) {
+//         if (dfs(child)) {
+//           return true;
+//         }
+//       }
+//     }
+
+//     path.pop();
+
+//     return false;
+//   }
+
+//   if (dfs(menu)) {
+//     return path;
+//   }
+
+//   return null;
+// }
 </script>
 
 <template>
-  <div class="flex-col flex-auto" :style="cssVars">
-    <div class="fixed top-0 left-0 w-[--sidebar-width] bg-[--sidebar-bg] h-full flex-col">
-      <div class="color-white text-32px m-16px flex-cross-center gap-8px">
-        <NIcon :color="token.primaryColor">
+  <div class="flex-col flex-auto bg-[--content-bg]" :style="cssVars">
+    <div class="fixed top-0 left-0 w-[--sidebar-width] bg-[--sidebar-bg] h-full max-lg:hidden lg:flex-col border-r-solid z-1000 transition-all">
+      <div class="text-24px p-16px flex-center gap-8px">
+        <NIcon :color="token.primaryColor" :size="48">
           <RiVuejsFill />
         </NIcon>
-        汪小明
       </div>
-      <nav class="flex-auto overflow-y-auto" style="scrollbar-width: none;">
+      <nav class="flex-auto overflow-y-auto py-16px px-8px" style="scrollbar-width: none;">
         <NMenu
-          inverted
-          :options="menus"
+          :options
           :value="selectedKey"
-          :theme-overrides="menuThemeOverrides"
+          :indent="18"
+          :collapsed
+          :collapsed-width="64"
         />
       </nav>
     </div>
-    <main class="flex-auto flex-col pl-[--sidebar-width] bg-[--content-bg]">
-      <header class="sticky h-56px top-0 left-0 w-full border-b-solid bg-[--appbar-bg]" />
-      <RouterView />
-    </main>
+    <div class="flex-auto flex-col lg:pl-[--sidebar-width] transition-all">
+      <header class="sticky top-0 left-0 w-full  bg-[--appbar-bg]">
+        <div class="min-h-56px px-16px lg:px-24px py-8px flex flex-cross-center border-b-solid gap-x-16px">
+          <NButton quaternary class="w-40px h-40px" @click="collapsed = !collapsed">
+            <template #icon>
+              <NIcon :size="24">
+                <RiMenuFold3Line v-if="!collapsed" />
+                <RiMenuUnfold3Line v-if="collapsed" />
+              </NIcon>
+            </template>
+          </NButton>
+          <div class="flex-auto" />
+          <NButton quaternary class="w-40px h-40px" @click="appStore.toggleThemeMode">
+            <template #icon>
+              <NIcon :size="24">
+                <RiSunLine v-if="mode === 'light'" />
+                <RiMoonLine v-if="mode === 'dark'" />
+              </NIcon>
+            </template>
+          </NButton>
+          <NAvatar :size="40" round :src="getAssetUrl('avatar.png')" />
+        </div>
+      </header>
+      <main class="flex-auto flex-col">
+        <div class="max-w-1440px mx-auto my-0 p-16px lg:p-24px w-full">
+          <RouterView />
+        </div>
+      </main>
+    </div>
   </div>
 </template>

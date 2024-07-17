@@ -4,8 +4,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { createMenuFromRoutes, createRoutesWithLayout } from './helpers';
 import { routes } from './routes';
 
-window.console.log('routes: ', createRoutesWithLayout(routes));
-window.console.log('menus: ', createMenuFromRoutes(routes));
+/**
+ * 菜单
+ */
+export const menus = createMenuFromRoutes(routes);
 
 /**
  * 设置路由

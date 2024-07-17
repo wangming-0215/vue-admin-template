@@ -1,6 +1,19 @@
 import { type GlobalThemeOverrides, darkTheme, lightTheme } from 'naive-ui';
 
+declare module 'naive-ui' {
+  interface CustomThemeCommonVars {
+    breakpoints?: Breakpoints;
+  }
+}
+
+type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+interface Breakpoints {
+  keys: Breakpoint[];
+  values: { [key in Breakpoint]: number };
+}
+
 export const fontFamily = [
+  '"HarmonyOs Medium"',
   '"Noto Sans SC"',
   'ui-sans-serif',
   'system-ui',
@@ -42,6 +55,20 @@ function createTypography() {
   };
 }
 
+function createBreakpoints(): Breakpoints {
+  return {
+    keys: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
+    values: {
+      'xs': 0,
+      'sm': 640,
+      'md': 768,
+      'lg': 1024,
+      'xl': 1280,
+      '2xl': 1536,
+    },
+  };
+}
+
 /**
  * 浅色主题
  * @returns light theme
@@ -51,8 +78,9 @@ function createNaiveThemeLight(): GlobalThemeOverrides & { name: 'light' } {
     common: {
       ...lightTheme.common,
       ...createTypography(),
-      bodyColor: '#f7fafc',
       borderRadius: '4px',
+      bodyColor: '#f7fafc',
+      breakpoints: createBreakpoints(),
     },
     name: 'light',
   };
@@ -70,6 +98,7 @@ function createNaiveThemeDark(): GlobalThemeOverrides & { name: 'dark' } {
       borderRadius: '4px',
       bodyColor: '#090a0b',
       cardColor: '#121517',
+      breakpoints: createBreakpoints(),
     },
     name: 'dark',
   };

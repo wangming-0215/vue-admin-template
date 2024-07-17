@@ -26,6 +26,10 @@ body, html {
   min-height: 100%;
 }
 
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 @font-face {
   font-family: "HarmonyOS Sans Regular";
   src: url(../assets/font/HarmonyOS_Sans_Regular.ttf) format('truetype');

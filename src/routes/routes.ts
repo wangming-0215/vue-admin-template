@@ -1,7 +1,12 @@
 import type { RouteRecordRaw } from 'vue-router';
-import { dashboardRoute, formRoute } from './modules';
+import {
+  DASHBOARD_ROUTE,
+  FORM_ROUTE,
+  PALETTE_ROUTE,
+} from './modules';
 
 export const routes: RouteRecordRaw[] = [
-  dashboardRoute,
-  formRoute,
-];
+  DASHBOARD_ROUTE,
+  PALETTE_ROUTE,
+  FORM_ROUTE,
+].flat();
