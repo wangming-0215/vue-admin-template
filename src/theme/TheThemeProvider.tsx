@@ -42,7 +42,7 @@ function addThemeVarsToHtml(vars: Record<string, string | undefined>) {
     if (!value) return;
 
     const cssVarKey = generateCssVarKey(key);
-    styles.push(`${cssVarKey}: ${vars[key]};`);
+    styles.push(`${cssVarKey}: ${vars[key]}`);
   });
 
   const css = `
@@ -148,6 +148,7 @@ export default defineComponent({
         preflightStyleDisabled
         theme={this.theme}
         themeOverrides={this.themeOverrides}
+        breakpoints={this.themeOverrides.common?.breakpoints?.values}
       >
         {this.$slots.default?.()}
       </NConfigProvider>

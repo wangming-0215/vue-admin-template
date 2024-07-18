@@ -36,7 +36,7 @@ export default defineConfig({
     VueJsx(),
     Components({
       dirs: [],
-      dts: 'src/naive-ui.d.ts',
+      dts: true,
       extensions: ['vue'],
       version: 3,
       resolvers: [NaiveUiResolver()],

@@ -13,7 +13,6 @@ export interface TheIconProps {
 }
 
 defineOptions({ name: 'TheIcon', inheritAttrs: false });
-
 defineProps<TheIconProps>();
 </script>
 

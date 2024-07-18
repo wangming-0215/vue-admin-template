@@ -1,15 +1,10 @@
 import { type GlobalThemeOverrides, darkTheme, lightTheme } from 'naive-ui';
+import { type Breakpoints, createBreakpoints } from './breakpoint';
 
 declare module 'naive-ui' {
   interface CustomThemeCommonVars {
     breakpoints: Breakpoints;
   }
-}
-
-type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-interface Breakpoints {
-  keys: Breakpoint[];
-  values: { [key in Breakpoint]: number };
 }
 
 export const fontFamily = [
@@ -52,20 +47,6 @@ function createTypography() {
     fontSizeTiny: fontSize.small,
     fontSizeMini: fontSize.small,
     fontSize: fontSize.base,
-  };
-}
-
-function createBreakpoints(): Breakpoints {
-  return {
-    keys: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
-    values: {
-      'xs': 0,
-      'sm': 640,
-      'md': 768,
-      'lg': 1024,
-      'xl': 1280,
-      '2xl': 1536,
-    },
   };
 }
 

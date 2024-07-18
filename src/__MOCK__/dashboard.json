@@ -1,0 +1,30 @@
+[
+  {
+    "key": "visit",
+    "title": "访问量",
+    "value": 141798,
+    "icon": "carbon:analytics",
+    "up": true
+  },
+  {
+    "key": "user",
+    "title": "新用户",
+    "value": 690023,
+    "icon": "carbon:user-multiple",
+    "up": true
+  },
+  {
+    "key": "download",
+    "title": "下载量",
+    "value": 883409,
+    "icon": "carbon:download",
+    "up": false
+  },
+  {
+    "key": "sales",
+    "title": "成交额",
+    "value": 91326,
+    "icon": "carbon:money",
+    "up": true
+  }
+]

@@ -54,6 +54,9 @@ export default defineConfig<Theme>({
       large: 'var(--font-size-large)',
       huge: 'var(--font-size-huge)',
     },
+    lineHeight: {
+      base: '1.6',
+    },
     boxShadow: {
       small: 'var(--box-shadow-small)',
       large: 'var(--box-shadow-large)',
