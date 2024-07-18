@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { useAppStore } from './store/modules/app';
+import { useThemeStore } from './store/modules/theme';
 import { TheThemeProvider } from './theme';
 
-const appStore = useAppStore();
+const themeStore = useThemeStore();
 </script>
 
 <template>
-  <TheThemeProvider :mode="appStore.themeMode">
+  <TheThemeProvider :mode="themeStore.themeMode">
     <RouterView />
   </TheThemeProvider>
 </template>

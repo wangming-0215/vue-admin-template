@@ -37,7 +37,7 @@ declare module 'vue-router' {
     /** 高亮 */
     activeMenu?: string;
     /** 菜单 icon */
-    icon?: Component | DefineComponent;
+    icon?: string;
   }
 
   export interface TypesConfig {

@@ -1,26 +1,22 @@
 <script lang="ts" setup>
-import { computed, h, ref } from 'vue';
+import { computed, h, ref, watch } from 'vue';
 import type { MenuOption } from 'naive-ui/es/menu/src/interface';
 import { RouterLink, useRoute } from 'vue-router';
-import {
-  RiMenuFold3Line,
-  RiMenuUnfold3Line,
-  RiMoonLine,
-  RiSunLine,
-  RiVuejsFill,
-} from '@remixicon/vue';
+import { useMediaQuery } from '@vueuse/core';
 import { type Menu, menus } from '~/routes';
 import { useTheme } from '~/theme';
-import { getAssetUrl, renderIcon } from '~/utils';
-import { useAppStore } from '~/store/modules/app';
+import { getAssetUrl } from '~/utils';
+import { useThemeStore } from '~/store/modules/theme';
+import { TheIcon, TheIconButton } from '~/components';
 
 defineOptions({ name: 'MainLayout', inheritAttrs: false });
 
 const collapsedWidth = 64;
+const sidebarWidth = 280;
 
 const route = useRoute();
 const { token, mode } = useTheme();
-const appStore = useAppStore();
+const themeStore = useThemeStore();
 const collapsed = ref<boolean>(false);
 const options = computed(() => transformToMenuOptions(menus));
 const cssVars = computed(() => {
@@ -28,15 +24,33 @@ const cssVars = computed(() => {
     '--content-bg': token.value.bodyColor,
     '--sidebar-bg': mode.value === 'dark' ? '#121517' : '#f9fafb',
     '--appbar-bg': mode.value === 'dark' ? token.value.bodyColor : '#fff',
-    '--sidebar-width': collapsed.value ? `${collapsedWidth + 16}px` : '280px',
+    '--sidebar-width': collapsed.value ? `${collapsedWidth + 16}px` : `${sidebarWidth}px`,
   };
 });
 const selectedKey = computed(() => {
   const { hiddenInMenu, activeMenu } = route.meta;
   const name = route.name as string;
-
   return (hiddenInMenu ? activeMenu : name) || name;
 });
+const greaterThanLg = useMediaQuery(
+  () => `(min-width: ${token.value.breakpoints.values.lg}px)`,
+);
+const greaterThanXl = useMediaQuery(
+  () => `(min-width: ${token.value.breakpoints.values.xl}px)`,
+);
+const showDrawer = ref<boolean>(false);
+
+watch(greaterThanXl, (greaterThanLg) => {
+  collapsed.value = !greaterThanLg;
+}, { immediate: true });
+
+function toggleMenu() {
+  if (greaterThanLg.value) {
+    collapsed.value = !collapsed.value;
+  } else {
+    showDrawer.value = true;
+  }
+}
 
 /**
  * 转成 naive ui menus 适配的 menu
@@ -52,7 +66,7 @@ function transformToMenuOptions(menus: Menu[]) {
         ? menu.label
         : () => h(RouterLink, { to: menu.path }, { default: () => menu.label }),
       icon: menu.icon
-        ? renderIcon(menu.icon)
+        ? () => h(TheIcon, { icon: menu.icon! })
         : undefined,
     } as MenuOption;
     if (menu.children?.length) {
@@ -63,80 +77,6 @@ function transformToMenuOptions(menus: Menu[]) {
 
   return options;
 }
-
-// const expandedKeys = ref<string[]>([]);
-
-// watch(
-//   () => route.name,
-//   () => {
-//     updateExpandedKeys();
-//   },
-//   { immediate: true },
-// );
-
-// function updateExpandedKeys() {
-//   if (!selectedKey.value) {
-//     expandedKeys.value = [];
-//     return;
-//   }
-//   expandedKeys.value = getSelectedMenuKeys(selectedKey.value, menus.value);
-// }
-
-// /**
-//  * 获取当前选中菜单的父子菜单 key
-//  * @param selectedKey
-//  * @param menus
-//  */
-// function getSelectedMenuKeys(selectedKey: string, menus: Menu[]) {
-//   const keys: string[] = [];
-
-//   menus.some((menu) => {
-//     const path = findMenuPath(selectedKey, menu);
-
-//     if (path) {
-//       keys.push(...path);
-//     }
-
-//     return !!path?.length;
-//   });
-
-//   return keys;
-// }
-
-// /**
-//  * 深度优先搜索
-//  * @param targetKey
-//  * @param menu
-//  */
-// function findMenuPath(targetKey: string, menu: Menu) {
-//   const path: string[] = [];
-
-//   function dfs(item: Menu): boolean {
-//     path.push(item.key);
-
-//     if (item.key === targetKey) {
-//       return true;
-//     }
-
-//     if (item.children) {
-//       for (const child of item.children) {
-//         if (dfs(child)) {
-//           return true;
-//         }
-//       }
-//     }
-
-//     path.pop();
-
-//     return false;
-//   }
-
-//   if (dfs(menu)) {
-//     return path;
-//   }
-
-//   return null;
-// }
 </script>
 
 <template>
@@ -154,29 +94,32 @@ function transformToMenuOptions(menus: Menu[]) {
           :indent="18"
           :collapsed
           :collapsed-width="64"
+          :collapsed-icon-size="22"
         />
       </nav>
     </div>
     <div class="flex-auto flex-col lg:pl-[--sidebar-width] transition-all">
       <header class="sticky top-0 left-0 w-full  bg-[--appbar-bg]">
-        <div class="min-h-56px px-16px lg:px-24px py-8px flex flex-cross-center border-b-solid gap-x-16px">
-          <NButton quaternary class="w-40px h-40px" @click="collapsed = !collapsed">
-            <template #icon>
-              <NIcon :size="24">
-                <RiMenuFold3Line v-if="!collapsed" />
-                <RiMenuUnfold3Line v-if="collapsed" />
-              </NIcon>
-            </template>
-          </NButton>
+        <div class="min-h-56px px-16px lg:px-24px py-8px flex flex-y-center border-b-solid gap-x-16px">
+          <TheIconButton
+            v-if="collapsed"
+            icon="line-md:menu-fold-right"
+            class="size-40px"
+            @click="toggleMenu"
+          />
+          <TheIconButton
+            v-else
+            icon="line-md:menu-fold-left"
+            class="size-40px"
+            @click="toggleMenu"
+          />
           <div class="flex-auto" />
-          <NButton quaternary class="w-40px h-40px" @click="appStore.toggleThemeMode">
-            <template #icon>
-              <NIcon :size="24">
-                <RiSunLine v-if="mode === 'light'" />
-                <RiMoonLine v-if="mode === 'dark'" />
-              </NIcon>
-            </template>
-          </NButton>
+          <TheIconButton
+            class="size-40px"
+            :icon="mode === 'light' ? 'carbon:sun' : 'carbon:moon'"
+            :icon-size="24"
+            @click="themeStore.toggleThemeMode"
+          />
           <NAvatar :size="40" round :src="getAssetUrl('avatar.png')" />
         </div>
       </header>
@@ -187,4 +130,23 @@ function transformToMenuOptions(menus: Menu[]) {
       </main>
     </div>
   </div>
+  <template v-if="!greaterThanLg">
+    <NDrawer v-model:show="showDrawer" placement="left" :width="sidebarWidth" :trap-focus="false">
+      <div class="h-full flex-col">
+        <div class="text-24px p-16px flex-center gap-8px">
+          <NIcon :color="token.primaryColor" :size="48">
+            <RiVuejsFill />
+          </NIcon>
+        </div>
+        <nav class="flex-auto overflow-y-auto py-16px px-8px" style="scrollbar-width: none;">
+          <NMenu
+            :options
+            :value="selectedKey"
+            :indent="18"
+            @update:value="showDrawer = false"
+          />
+        </nav>
+      </div>
+    </NDrawer>
+  </template>
 </template>

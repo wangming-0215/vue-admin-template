@@ -20,10 +20,15 @@ export default defineConfig<Theme>({
   shortcuts: [
     {
       'flex-col': 'flex flex-col',
-      'flex-main-center': 'flex justify-center',
-      'flex-cross-center': 'flex items-center',
+      'flex-x-center': 'flex justify-center',
+      'flex-y-center': 'flex items-center',
       'flex-center': 'flex items-center justify-center',
+    },
+    {
       'border-solid': 'border-1px border-solid border-border',
+    },
+    {
+      'styled-card': 'rd-8px shadow',
     },
     /** spell-checker:disable-next-line */
     [/^border-([rltb])-solid$/, ([, direction]) => {

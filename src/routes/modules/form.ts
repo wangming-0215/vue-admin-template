@@ -1,4 +1,3 @@
-import { RiInformation2Line } from '@remixicon/vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 const FORM_ROUTE: RouteRecordRaw = {
@@ -8,7 +7,7 @@ const FORM_ROUTE: RouteRecordRaw = {
     layout: () => import('~/layouts/MainLayout/index.vue'),
     title: '表单',
     requiresAuth: false,
-    icon: RiInformation2Line,
+    icon: 'carbon:information',
   },
   children: [
     {

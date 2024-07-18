@@ -1,4 +1,3 @@
-import { RiPaletteLine } from '@remixicon/vue';
 import type { RouteRecordRaw } from 'vue-router';
 
 const PALETTE_ROUTE: RouteRecordRaw = {
@@ -9,7 +8,7 @@ const PALETTE_ROUTE: RouteRecordRaw = {
     title: '调色板',
     requiresAuth: false,
     layout: () => import('~/layouts/MainLayout/index.vue'),
-    icon: RiPaletteLine,
+    icon: 'carbon:color-palette',
   },
 };
 

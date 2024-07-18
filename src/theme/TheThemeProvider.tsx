@@ -1,7 +1,7 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, provide, toRef, watch } from 'vue';
 import type { GlobalThemeOverrides } from 'naive-ui';
-import { NConfigProvider } from 'naive-ui';
+import { NConfigProvider, darkTheme } from 'naive-ui';
 import createNaiveTheme from './createNaiveTheme';
 import { themeModeContextKey } from './useThemeMode';
 
@@ -100,7 +100,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const theme = computed(() => createNaiveTheme(props.mode));
+    const theme = computed(() => props.mode === 'dark' ? darkTheme : null);
+    const themeOverrides = computed(() => createNaiveTheme(props.mode));
 
     provide(themeModeContextKey, toRef(() => props.mode));
 
@@ -108,32 +109,36 @@ export default defineComponent({
       toggleDarkMode(mode === 'dark');
     }, { immediate: true });
 
-    watch(theme, (theme) => {
-      window.console.log('theme.common: \n', theme.common);
+    watch(themeOverrides, (overrides) => {
+      if (import.meta.env.MODE === 'development') {
+        window.__NAIVE_UI_THEME_TOKEN__ = themeOverrides.value.common;
+      }
+
       addThemeVarsToHtml({
-        ...getPaletteFromThemeToken(theme.common),
-        fontFamily: theme.common?.fontFamily,
-        fontSizeSmall: theme.common?.fontSizeSmall,
-        baseFontSize: theme.common?.fontSize,
-        fontSizeMedium: theme.common?.fontSizeMedium,
-        fontSizeLarge: theme.common?.fontSizeLarge,
-        fontSizeHuge: theme.common?.fontSizeHuge,
-        textColorPrimary: theme.common?.textColor1,
-        textColorRegular: theme.common?.textColor2,
-        textColorSecondary: theme.common?.textColor3,
-        textColorDisabled: theme.common?.textColorDisabled,
-        boxShadowSmall: theme.common?.boxShadow1,
-        boxShadowMedium: theme.common?.boxShadow2,
-        boxShadowLarge: theme.common?.boxShadow3,
-        borderColor: theme.common?.borderColor,
-        dividerColor: theme.common?.dividerColor,
-        borderRadiusSmall: theme.common?.borderRadiusSmall,
-        borderRadiusMedium: theme.common?.borderRadius,
+        ...getPaletteFromThemeToken(overrides.common),
+        fontFamily: overrides.common?.fontFamily,
+        fontSizeSmall: overrides.common?.fontSizeSmall,
+        baseFontSize: overrides.common?.fontSize,
+        fontSizeMedium: overrides.common?.fontSizeMedium,
+        fontSizeLarge: overrides.common?.fontSizeLarge,
+        fontSizeHuge: overrides.common?.fontSizeHuge,
+        textColorPrimary: overrides.common?.textColor1,
+        textColorRegular: overrides.common?.textColor2,
+        textColorSecondary: overrides.common?.textColor3,
+        textColorDisabled: overrides.common?.textColorDisabled,
+        boxShadowSmall: overrides.common?.boxShadow1,
+        boxShadowMedium: overrides.common?.boxShadow2,
+        boxShadowLarge: overrides.common?.boxShadow3,
+        borderColor: overrides.common?.borderColor,
+        dividerColor: overrides.common?.dividerColor,
+        borderRadiusSmall: overrides.common?.borderRadiusSmall,
+        borderRadiusMedium: overrides.common?.borderRadius,
       });
     }, { immediate: true });
 
     return {
       theme,
+      themeOverrides,
     };
   },
   render() {
@@ -141,7 +146,8 @@ export default defineComponent({
       <NConfigProvider
         abstract
         preflightStyleDisabled
-        themeOverrides={this.theme}
+        theme={this.theme}
+        themeOverrides={this.themeOverrides}
       >
         {this.$slots.default?.()}
       </NConfigProvider>

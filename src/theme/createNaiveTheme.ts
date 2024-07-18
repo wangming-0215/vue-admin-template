@@ -2,7 +2,7 @@ import { type GlobalThemeOverrides, darkTheme, lightTheme } from 'naive-ui';
 
 declare module 'naive-ui' {
   interface CustomThemeCommonVars {
-    breakpoints?: Breakpoints;
+    breakpoints: Breakpoints;
   }
 }
 

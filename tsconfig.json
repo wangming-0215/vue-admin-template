@@ -7,7 +7,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./src/*"],
     },
     "outDir": "dist",
     "resolveJsonModule": true,
