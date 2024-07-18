@@ -25,11 +25,18 @@ import TheHotMovieList from './TheHotMovieList.vue';
         <TheHotMovieList />
       </div>
       <div class="col-span-full xl:col-span-5">
-        <NCard :bordered="false" size="small" segmented class="styled-card" title="待办事项">
-          <div class="p-48px">
-            <NEmpty />
-          </div>
-        </NCard>
+        <div class="flex-col gap-16px">
+          <NCard :bordered="false" size="small" segmented class="styled-card" title="待办事项">
+            <div class="p-48px">
+              <NEmpty />
+            </div>
+          </NCard>
+          <NCard :bordered="false" size="small" segmented class="styled-card" title="项目动态">
+            <div class="p-48px">
+              <NEmpty />
+            </div>
+          </NCard>
+        </div>
       </div>
     </div>
   </div>
