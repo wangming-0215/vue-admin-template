@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import TheStatistics from './modules/TheStatistics.vue';
-import TheNewSongList from './modules/TheNewSongList.vue';
-import TheHotSongList from './modules/TheHotSongList.vue';
-import TheViralSongList from './modules/TheViralSongList.vue';
+import TheStatistics from './TheStatistics.vue';
+import TheNewSongList from './TheNewSongList.vue';
+import TheHotSongList from './TheHotSongList.vue';
+import TheViralSongList from './TheViralSongList.vue';
+import TheHotMovieList from './TheHotMovieList.vue';
 </script>
 
 <template>
@@ -21,13 +22,13 @@ import TheViralSongList from './modules/TheViralSongList.vue';
     </div>
     <div class="grid grid-cols-12 gap-16px">
       <div class="col-span-full xl:col-span-7">
-        <NCard :bordered="false" size="small" segmented class="styled-card" title="正在热映">
-          <div class="h-680px" />
-        </NCard>
+        <TheHotMovieList />
       </div>
       <div class="col-span-full xl:col-span-5">
         <NCard :bordered="false" size="small" segmented class="styled-card" title="待办事项">
-          <div class="h-680px" />
+          <div class="p-48px">
+            <NEmpty />
+          </div>
         </NCard>
       </div>
     </div>

@@ -17,6 +17,7 @@ export async function setupRouter(app: App) {
   const router = createRouter({
     history: createWebHistory('/'),
     routes: createRoutesWithLayout(routes),
+    scrollBehavior: () => ({ left: 0, top: 0 }),
   });
 
   app.use(router);

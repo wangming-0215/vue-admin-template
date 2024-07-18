@@ -29,11 +29,11 @@ const colors = computed(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-16px">
+  <div class="grid grid-cols-12 gap-16px">
     <ul
       v-for="(palette, index) in colors"
       :key="index"
-      class="list-none m-0 p-0 flex-auto"
+      class="list-none m-0 p-0 flex-auto col-span-12 md:col-span-4"
     >
       <li
         v-for="(item, key) in palette"

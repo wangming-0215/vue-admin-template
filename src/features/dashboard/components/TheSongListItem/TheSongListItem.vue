@@ -19,7 +19,7 @@ defineProps<TheSongListItemProps>();
       <img class="size-full" :src="cover" />
     </div>
     <div class="flex-col flex-x-center min-w-0 flex-auto">
-      <div class="font-size-medium truncate">
+      <div class="truncate">
         <span>{{ name }}</span>
         <span v-if="remark" class="color-text-secondary">
           ({{ remark }})
