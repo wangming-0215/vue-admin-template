@@ -2,8 +2,10 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, provide, toRef, watch } from 'vue';
 import type { GlobalThemeOverrides } from 'naive-ui';
 import { NConfigProvider, darkTheme } from 'naive-ui';
-import createNaiveTheme from './createNaiveTheme';
+import createTheme from './createTheme';
 import { themeModeContextKey } from './useThemeMode';
+
+import { type PaletteType, scenes } from './palette';
 
 /**
  * 创建 style 标签
@@ -35,11 +37,11 @@ function generateCssVarKey(key: string) {
  * css 变量添加到 html 中
  * @param vars
  */
-function addThemeVarsToHtml(vars: Record<string, string | undefined>) {
+function addThemeVarsToHtml(vars: Record<string, string | number | undefined>) {
   const styles: string[] = [];
   Object.keys(vars).forEach((key) => {
     const value = vars[key];
-    if (!value) return;
+    if (value === undefined) return;
 
     const cssVarKey = generateCssVarKey(key);
     styles.push(`${cssVarKey}: ${vars[key]}`);
@@ -56,31 +58,6 @@ function addThemeVarsToHtml(vars: Record<string, string | undefined>) {
   document.head.appendChild(tag);
 }
 
-type NaivePaletteType = 'primary' | 'info' | 'success' | 'warning' | 'error';
-type NaivePaletteScene = '' | 'Suppl' | 'Hover' | 'Pressed';
-type NaiveThemeColorKey = `${NaivePaletteType}${NaivePaletteScene}`;
-type NaiveThemeColor = Partial<Record<NaiveThemeColorKey, string>>;
-
-/**
- * 从 naive ui 主题中提取调色盘
- * @param token
- * @returns colors
- */
-function getPaletteFromThemeToken(token: GlobalThemeOverrides['common']) {
-  if (!token) return undefined;
-
-  const paletteTypes: NaivePaletteType[] = ['primary', 'info', 'success', 'warning', 'error'];
-  const paletteScenes: NaivePaletteScene[] = ['', 'Suppl', 'Hover', 'Pressed'];
-  return paletteTypes.reduce((acc, type) => {
-    paletteScenes.forEach((scene) => {
-      const key: NaiveThemeColorKey = `${type}${scene}`;
-      const value = token[`${type}Color${scene}`];
-      acc[key] = value;
-    });
-    return acc;
-  }, {} as NaiveThemeColor);
-}
-
 function toggleDarkMode(darkMode = false) {
   const DARK_CLASS = 'dark';
   if (darkMode) {
@@ -88,6 +65,17 @@ function toggleDarkMode(darkMode = false) {
   } else {
     document.documentElement.classList.remove(DARK_CLASS);
   }
+}
+
+function getPaletteFromToken(token: GlobalThemeOverrides, type: PaletteType = 'primary') {
+  return scenes.reduce((acc, scene) => {
+    const color = token.common?.[`${type}Color${scene}`];
+    if (color) {
+      const key = [type, 'color', scene.toLowerCase()].filter(t => !!t).join('-');
+      acc[key] = color;
+    }
+    return acc;
+  }, {} as Record<string, string | undefined>);
 }
 
 export default defineComponent({
@@ -101,7 +89,7 @@ export default defineComponent({
   },
   setup(props) {
     const theme = computed(() => props.mode === 'dark' ? darkTheme : null);
-    const themeOverrides = computed(() => createNaiveTheme(props.mode));
+    const themeOverrides = computed(() => createTheme({ mode: props.mode }));
 
     provide(themeModeContextKey, toRef(() => props.mode));
 
@@ -114,8 +102,27 @@ export default defineComponent({
         window.__NAIVE_UI_THEME_TOKEN__ = themeOverrides.value.common;
       }
 
+      const token = overrides.common;
+      const breakpoints = token?.breakpoints?.values;
+
       addThemeVarsToHtml({
-        ...getPaletteFromThemeToken(overrides.common),
+        // ...getPaletteFromThemeToken(overrides.common),
+        ...(breakpoints && {
+          'screen-xs': `${breakpoints.xs}px`,
+          'screen-sm': `${breakpoints.sm}px`,
+          'screen-md': `${breakpoints.md}px`,
+          'screen-lg': `${breakpoints.lg}px`,
+          'screen-xl': `${breakpoints.xl}px`,
+          'screen-2xl': `${breakpoints['2xl']}px`,
+        }),
+        ...(token && {
+          ...getPaletteFromToken(overrides, 'primary'),
+          ...getPaletteFromToken(overrides, 'info'),
+          ...getPaletteFromToken(overrides, 'success'),
+          ...getPaletteFromToken(overrides, 'warning'),
+          ...getPaletteFromToken(overrides, 'error'),
+          'body-bg-color': token.bodyColor,
+        }),
         fontFamily: overrides.common?.fontFamily,
         fontSizeSmall: overrides.common?.fontSizeSmall,
         baseFontSize: overrides.common?.fontSize,

@@ -1,5 +1,6 @@
 import { type GlobalThemeOverrides, darkTheme, lightTheme } from 'naive-ui';
-import { type Breakpoints, createBreakpoints } from './breakpoint';
+import { type Breakpoints, createBreakpoints } from './breakpoints';
+import { createPalette } from './palette';
 
 declare module 'naive-ui' {
   interface CustomThemeCommonVars {
@@ -54,16 +55,19 @@ function createTypography() {
  * 浅色主题
  * @returns light theme
  */
-function createNaiveThemeLight(): GlobalThemeOverrides & { name: 'light' } {
+function createLightTheme(): GlobalThemeOverrides {
+  const breakpoints = createBreakpoints();
+  const palette = createPalette({ mode: 'light' });
+
   return {
     common: {
       ...lightTheme.common,
+      ...palette,
       ...createTypography(),
       borderRadius: '4px',
       bodyColor: '#f7fafc',
-      breakpoints: createBreakpoints(),
+      breakpoints,
     },
-    name: 'light',
   };
 }
 
@@ -71,30 +75,37 @@ function createNaiveThemeLight(): GlobalThemeOverrides & { name: 'light' } {
  * 深色主题
  * @returns dark theme
  */
-function createNaiveThemeDark(): GlobalThemeOverrides & { name: 'dark' } {
+function createDarkTheme(): GlobalThemeOverrides {
+  const breakpoints = createBreakpoints();
+  const palette = createPalette({ mode: 'dark' });
+
   return {
     common: {
       ...darkTheme.common,
+      ...palette,
       ...createTypography(),
       borderRadius: '4px',
       bodyColor: '#090a0b',
       cardColor: '#121517',
-      breakpoints: createBreakpoints(),
+      breakpoints,
     },
-    name: 'dark',
   };
+}
+
+interface ThemeOptions {
+  mode: 'light' | 'dark';
 }
 
 /**
  * naive ui 主题
  * @returns theme
  */
-export default function createNaiveTheme(mode: 'light' | 'dark' = 'light'): GlobalThemeOverrides {
-  switch (mode) {
-    case 'dark':
-      return createNaiveThemeDark();
-    case 'light':
-    default:
-      return createNaiveThemeLight();
+export default function createTheme(options?: Partial<ThemeOptions>): GlobalThemeOverrides {
+  const { mode = 'light' } = options || {};
+
+  if (mode === 'dark') {
+    return createDarkTheme();
   }
+
+  return createLightTheme();
 }

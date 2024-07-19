@@ -1,10 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-const FORM_ROUTE: RouteRecordRaw = {
+const FORM_ROUTES: RouteRecordRaw[] = [{
   path: '/form',
   name: '/form',
   meta: {
-    layout: () => import('~/layouts/MainLayout/index.vue'),
+    layout: () => import('~/layouts/TheMainLayout/index.vue'),
     title: '表单',
     requiresAuth: false,
     icon: 'carbon:information',
@@ -38,6 +38,6 @@ const FORM_ROUTE: RouteRecordRaw = {
       },
     },
   ],
-};
+}];
 
-export default FORM_ROUTE;
+export default FORM_ROUTES;

@@ -7,8 +7,13 @@ import {
   transformerVariantGroup,
 } from 'unocss';
 import type { Theme } from '@unocss/preset-uno';
+import { mapValues } from 'radash';
 
-import { createBreakpoints } from './src/theme/breakpoint';
+import { createBreakpoints } from './src/theme/breakpoints';
+import { getPaletteVars } from './src/theme/palette';
+
+const breakpoints = createBreakpoints();
+const palette = getPaletteVars();
 
 export default defineConfig<Theme>({
   presets: [
@@ -79,7 +84,8 @@ export default defineConfig<Theme>({
   ],
   theme: {
     colors: {
-      ...getThemeColors(),
+      ...palette,
+      body: 'var(--body-bg-color)',
       text: {
         primary: 'var(--text-color-primary)',
         regular: 'var(--text-color-regular)',
@@ -108,32 +114,6 @@ export default defineConfig<Theme>({
       small: 'var(--border-radius-small)',
       medium: 'var(--border-radius-medium)',
     },
-    breakpoints: getBreakpoints(),
+    breakpoints: mapValues(breakpoints.values, value => `${value}px`),
   },
 });
-
-function getBreakpoints() {
-  const { keys, values } = createBreakpoints();
-
-  return keys.reduce((acc, breakpoint) => ({
-    ...acc,
-    [breakpoint]: `${values[breakpoint]}px`,
-  }), {} as Record<string, string>);
-}
-
-function getThemeColors() {
-  const palette = ['primary', 'success', 'info', 'warning', 'error'];
-  const scenes = ['', 'suppl', 'hover', 'pressed'];
-
-  const colors: Record<string, string> = {};
-
-  palette.forEach((p) => {
-    scenes.forEach((s) => {
-      const key = [p, s].filter(t => !!t).join('-');
-      const value = `var(--${[p, s].filter(t => !!t).join('-')})`;
-      colors[key] = value;
-    });
-  });
-
-  return colors;
-}

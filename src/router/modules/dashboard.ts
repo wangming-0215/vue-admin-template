@@ -1,15 +1,15 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-const DASHBOARD_ROUTE: RouteRecordRaw = {
+const DASHBOARD_ROUTES: RouteRecordRaw[] = [{
   path: '/',
   name: '/',
   component: () => import('~/features/dashboard/views/index.vue'),
   meta: {
     title: 'Dashboard',
     requiresAuth: false,
-    layout: () => import('~/layouts/MainLayout/index.vue'),
+    layout: () => import('~/layouts/TheMainLayout/index.vue'),
     icon: 'carbon:laptop',
   },
-};
+}];
 
-export default DASHBOARD_ROUTE;
+export default DASHBOARD_ROUTES;

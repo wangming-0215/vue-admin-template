@@ -8,6 +8,9 @@ export interface Breakpoints {
   only: (key: Breakpoint) => string;
 }
 
+/**
+ * 生成断点
+ */
 export default function createBreakpoints(): Breakpoints {
   const values: Breakpoints['values'] = {
     'xs': 0,

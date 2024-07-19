@@ -1,8 +1,9 @@
 import { computed, h } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import type { MenuOption } from 'naive-ui';
+
 import { TheIcon } from '~/components';
-import { type Menu, menus } from '~/routes';
+import { type Menu, menus } from '~/router';
 
 /**
  * 转成 naive ui menus 适配的 menu
