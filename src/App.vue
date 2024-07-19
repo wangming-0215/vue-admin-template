@@ -7,7 +7,7 @@ const themeStore = useThemeStore();
 </script>
 
 <template>
-  <NConfigProvider :locale="zhCN">
+  <NConfigProvider :locale="zhCN" preflight-style-disabled abstract>
     <TheThemeProvider :mode="themeStore.themeMode">
       <RouterView />
     </TheThemeProvider>

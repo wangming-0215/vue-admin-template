@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { TheSongListItem } from './components';
+import { TheSongListItem } from '../components';
 
 defineOptions({ name: 'TheNewSongList', inheritAttrs: false });
 

@@ -1,28 +1,40 @@
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 import { TheSidebar, TheSidebarDrawer } from './components';
 import { useMenus } from './hooks';
 
 import { useTheme } from '~/theme';
 import { useThemeStore } from '~/store/modules/theme';
-import { TheHidden, TheIconButton } from '~/components';
+import { TheHidden, TheIconButton, TheLocalAssetProvider } from '~/components';
+import { useBreakpoints } from '~/hooks';
 
 defineOptions({ name: 'MainLayout', inheritAttrs: false });
+
+const sidebarWidth = 280;
+const sidebarCollapsedWidth = 64;
 
 const { token, mode } = useTheme();
 const themeStore = useThemeStore();
 const { menus, selectedKey } = useMenus();
+const breakpoints = useBreakpoints();
+
+const collapsed = ref<boolean>(false);
 const cssVars = computed(() => {
   return {
     '--content-bg': token.value.bodyColor,
     '--sidebar-bg': mode.value === 'dark' ? '#121517' : '#f9fafb',
     '--appbar-bg': mode.value === 'dark' ? token.value.bodyColor : '#fff',
-    '--sidebar-width': '280px',
+    '--sidebar-width': collapsed.value ? `${sidebarCollapsedWidth}px` : `${sidebarWidth}px`,
   };
 });
-
 const showDrawer = ref<boolean>(false);
+
+const isSmallerThanXl = breakpoints.smaller('xl');
+
+watch(isSmallerThanXl, (smaller) => {
+  collapsed.value = smaller;
+}, { immediate: true });
 </script>
 
 <template>
@@ -32,6 +44,8 @@ const showDrawer = ref<boolean>(false);
         class="w-[--sidebar-width]"
         :menus="menus"
         :selected-key="selectedKey"
+        :collapsed="collapsed"
+        :collapsed-width="sidebarCollapsedWidth"
       />
     </TheHidden>
     <TheHidden dir="up" breakpoint="lg">
@@ -51,6 +65,20 @@ const showDrawer = ref<boolean>(false);
               @click="showDrawer = true"
             />
           </TheHidden>
+          <TheHidden dir="down" breakpoint="lg">
+            <TheIconButton
+              v-if="!collapsed"
+              icon="line-md:menu-fold-left"
+              class="size-40px"
+              @click="collapsed = true"
+            />
+            <TheIconButton
+              v-else
+              icon="line-md:menu-fold-right"
+              class="size-40px"
+              @click="collapsed = false"
+            />
+          </TheHidden>
           <div class="flex-auto" />
           <TheIconButton
             class="size-40px"
@@ -58,13 +86,13 @@ const showDrawer = ref<boolean>(false);
             :icon-size="24"
             @click="themeStore.toggleThemeMode"
           />
-          <NAvatar :size="40" round src="https://picsum.photos/id/237/200/200" />
+          <TheLocalAssetProvider v-slot="{ src }" name="avatar.jpg">
+            <NAvatar :size="40" round :src="src" />
+          </TheLocalAssetProvider>
         </div>
       </header>
       <main class="flex-auto flex-col">
-        <div class="max-w-1440px mx-auto my-0 p-16px md:p-24px w-full">
-          <RouterView />
-        </div>
+        <RouterView />
       </main>
     </div>
   </div>

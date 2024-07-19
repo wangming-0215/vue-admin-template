@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router';
 const DASHBOARD_ROUTE: RouteRecordRaw = {
   path: '/',
   name: '/',
-  component: () => import('~/features/dashboard/index.vue'),
+  component: () => import('~/features/dashboard/views/index.vue'),
   meta: {
     title: 'Dashboard',
     requiresAuth: false,

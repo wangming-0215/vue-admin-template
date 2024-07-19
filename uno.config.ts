@@ -2,11 +2,13 @@ import {
   defineConfig,
   presetAttributify,
   presetUno,
+  toEscapedSelector,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss';
-
 import type { Theme } from '@unocss/preset-uno';
+
+import { createBreakpoints } from './src/theme/breakpoint';
 
 export default defineConfig<Theme>({
   presets: [
@@ -16,6 +18,46 @@ export default defineConfig<Theme>({
   transformers: [
     transformerDirectives(),
     transformerVariantGroup(),
+  ],
+  rules: [
+    [/^box$/, (_, { theme, rawSelector }) => {
+      const selector = toEscapedSelector(rawSelector);
+
+      const mediaQuery = theme.breakpoints
+        ? `@media (min-width:${theme.breakpoints.sm}) {
+            ${selector} {
+                padding-right: 24px;
+                padding-left: 24px;
+            }
+          }`
+        : '';
+
+      return `
+        ${selector} {
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 16px;
+          padding-right: 16px;
+          transition: padding 0.2s;
+        }
+
+        ${mediaQuery}
+      `;
+    }],
+    [/^box-max-w-(xs|sm|md|lg|xl|2xl)$/, ([, breakpoint], { theme, symbols }) => {
+      if (!theme.breakpoints) return undefined;
+
+      let maxWidth = theme.breakpoints[breakpoint];
+      if (breakpoint === 'xs') {
+        maxWidth = `${Math.max(Number(theme.breakpoints.xs.replace('px', '')), 444)}`;
+      }
+
+      return {
+        [symbols.parent]: `@media (min-width:${theme.breakpoints[breakpoint]})`,
+        'max-width': maxWidth,
+      };
+    }],
   ],
   shortcuts: [
     {
@@ -66,16 +108,18 @@ export default defineConfig<Theme>({
       small: 'var(--border-radius-small)',
       medium: 'var(--border-radius-medium)',
     },
-    breakpoints: {
-      'xs': '0px',
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1024px',
-      'xl': '1280px',
-      '2xl': '1536px',
-    },
+    breakpoints: getBreakpoints(),
   },
 });
+
+function getBreakpoints() {
+  const { keys, values } = createBreakpoints();
+
+  return keys.reduce((acc, breakpoint) => ({
+    ...acc,
+    [breakpoint]: `${values[breakpoint]}px`,
+  }), {} as Record<string, string>);
+}
 
 function getThemeColors() {
   const palette = ['primary', 'success', 'info', 'warning', 'error'];

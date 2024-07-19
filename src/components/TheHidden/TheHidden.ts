@@ -17,9 +17,9 @@ const theHiddenProps = {
     type: String as PropType<'up' | 'down' | 'between' | 'only'>,
     default: 'only',
   },
-};
+} as const;
 
-export type TheHiddenProps = Required<ExtractPublicPropTypes<typeof theHiddenProps>>;
+export type TheHiddenProps = ExtractPublicPropTypes<typeof theHiddenProps>;
 
 export default defineComponent({
   name: 'TheHidden',

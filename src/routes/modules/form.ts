@@ -31,7 +31,7 @@ const FORM_ROUTE: RouteRecordRaw = {
     {
       path: '/form/hidden-in-menus',
       name: '/form/hidden-in-menus',
-      component: () => import('~/features/dashboard/index.vue'),
+      component: () => import('~/features/dashboard/views/index.vue'),
       meta: {
         title: '菜单隐藏',
         hiddenInMenu: true,
