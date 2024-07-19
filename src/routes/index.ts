@@ -53,9 +53,9 @@ export interface RouteNamedMap {
     Record<never, never>,
     Record<never, never>
   >;
-  '/form/basic': RouteRecordInfo<
-    '/form/basic',
-    '/form/basic',
+  '/palette': RouteRecordInfo<
+    '/palette',
+    '/palette',
     Record<never, never>,
     Record<never, never>
   >;

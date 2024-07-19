@@ -29,21 +29,23 @@ const colors = computed(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-12 gap-16px">
-    <ul
-      v-for="(palette, index) in colors"
-      :key="index"
-      class="list-none m-0 p-0 flex-auto col-span-12 md:col-span-4"
-    >
-      <li
-        v-for="(item, key) in palette"
-        :key="key"
-        :style="{ backgroundColor: item, color: chroma.contrast(item, '#fff') >= 3 ? '#fff' : '#000' }"
-        class="p-16px flex justify-between"
+  <div class="box box-max-w-2xl p-16px sm:p-24px">
+    <div class="grid grid-cols-12 gap-16px">
+      <ul
+        v-for="(palette, index) in colors"
+        :key="index"
+        class="list-none m-0 p-0 flex-auto col-span-12 md:col-span-4"
       >
-        <div>{{ key }}</div>
-        <div>{{ item }}</div>
-      </li>
-    </ul>
+        <li
+          v-for="(item, key) in palette"
+          :key="key"
+          :style="{ backgroundColor: item, color: chroma.contrast(item, '#fff') >= 3 ? '#fff' : '#000' }"
+          class="p-16px flex justify-between"
+        >
+          <div>{{ key }}</div>
+          <div>{{ item }}</div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
