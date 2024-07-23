@@ -16,7 +16,8 @@
     "unplugin",
     "Vuejs",
     "vueuse",
-    "webfont"
+    "webfont",
+    "wechat"
   ],
   // Disable the default formatter, use eslint instead
   "prettier.enable": false,

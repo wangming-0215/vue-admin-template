@@ -3,4 +3,5 @@
  */
 export enum StorageKeys {
   ThemeMode = 'THEME_MODE',
+  AccessToken = 'ACCESS_TOKEN',
 }

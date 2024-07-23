@@ -27,29 +27,29 @@ export const fontFamily = [
   '"Noto Color Emoji"',
 ].join(', ');
 
-export const fontSize = {
-  small: '12px',
-  base: '14px',
-  medium: '16px',
-  large: '20px',
-  huge: '24px',
-} as const;
+// export const fontSize = {
+//   small: '12px',
+//   base: '14px',
+//   medium: '16px',
+//   large: '20px',
+//   huge: '24px',
+// } as const;
 
-/**
- * 字体/字号
- */
-function createTypography() {
-  return {
-    fontFamily,
-    fontSizeHuge: fontSize.huge,
-    fontSizeLarge: fontSize.large,
-    fontSizeMedium: fontSize.medium,
-    fontSizeSmall: fontSize.small,
-    fontSizeTiny: fontSize.small,
-    fontSizeMini: fontSize.small,
-    fontSize: fontSize.base,
-  };
-}
+// /**
+//  * 字体/字号
+//  */
+// function createTypography() {
+//   return {
+//     fontFamily,
+//     fontSizeHuge: fontSize.huge,
+//     fontSizeLarge: fontSize.large,
+//     fontSizeMedium: fontSize.medium,
+//     fontSizeSmall: fontSize.small,
+//     fontSizeTiny: fontSize.small,
+//     fontSizeMini: fontSize.small,
+//     fontSize: fontSize.base,
+//   };
+// }
 
 /**
  * 浅色主题
@@ -63,7 +63,7 @@ function createLightTheme(): GlobalThemeOverrides {
     common: {
       ...lightTheme.common,
       ...palette,
-      ...createTypography(),
+      fontFamily,
       borderRadius: '4px',
       bodyColor: '#f7fafc',
       breakpoints,
@@ -83,7 +83,7 @@ function createDarkTheme(): GlobalThemeOverrides {
     common: {
       ...darkTheme.common,
       ...palette,
-      ...createTypography(),
+      fontFamily,
       borderRadius: '4px',
       bodyColor: '#090a0b',
       cardColor: '#121517',

@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { setupRouter } from './router';
 import { setupStore } from './store';
+import { enableMocking } from './__mocks__/utils';
 
 import 'virtual:uno.css';
 import './styles/main.css';
@@ -19,4 +20,8 @@ async function setupApp() {
   app.mount('#app');
 }
 
-setupApp();
+// setupApp();
+
+enableMocking().then(() => {
+  setupApp();
+});

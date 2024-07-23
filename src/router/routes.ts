@@ -44,6 +44,12 @@ interface RouteNamedMap {
     Record<never, never>,
     Record<never, never>
   >;
+  '/auth/sign-up': RouteRecordInfo<
+    '/auth/sign-up',
+    '/auth/sign-up',
+    Record<never, never>,
+    Record<never, never>
+  >;
 }
 
 export const routes: RouteRecordRaw[] = [

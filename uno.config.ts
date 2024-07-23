@@ -106,13 +106,13 @@ export default defineConfig<Theme>({
       base: '1.6',
     },
     boxShadow: {
-      small: 'var(--box-shadow-small)',
-      large: 'var(--box-shadow-large)',
-      medium: 'var(--box-shadow-medium)',
+      small: 'var(--shadow-small)',
+      large: 'var(--shadow-large)',
+      medium: 'var(--shadow-medium)',
     },
     borderRadius: {
-      small: 'var(--border-radius-small)',
-      medium: 'var(--border-radius-medium)',
+      small: 'var(--radius-small)',
+      medium: 'var(--radius-medium)',
     },
     breakpoints: mapValues(breakpoints.values, value => `${value}px`),
   },
