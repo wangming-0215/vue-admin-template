@@ -4,10 +4,10 @@ const AUTH_ROUTES: RouteRecordRaw[] = [
   {
     path: '/auth/sign-in',
     name: '/auth/sign-in',
-    component: () => import('~/views/auth/sign-in/index.vue'),
+    component: () => import('@/views/auth/sign-in/index.vue'),
     meta: {
       title: '登录',
-      layout: () => import('~/layouts/TheAuthLayout/index.vue'),
+      layout: () => import('@/layouts/AuthLayout/index.vue'),
       requiresAuth: false,
       hiddenInMenu: true,
     },
@@ -15,10 +15,10 @@ const AUTH_ROUTES: RouteRecordRaw[] = [
   {
     path: '/auth/sign-up',
     name: '/auth/sign-up',
-    component: () => import('~/views/auth/sign-up/index.vue'),
+    component: () => import('@/views/auth/sign-up/index.vue'),
     meta: {
       title: '注册',
-      layout: () => import('~/layouts/TheAuthLayout/index.vue'),
+      layout: () => import('@/layouts/AuthLayout/index.vue'),
       requiresAuth: false,
       hiddenInMenu: true,
     },

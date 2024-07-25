@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TheIcon } from '~/components';
+import { AppIcon } from '@/components';
 
 export interface TheSongListItemProps {
   id: number;
@@ -30,7 +30,7 @@ defineProps<TheSongListItemProps>();
       </div>
     </div>
     <div class="cursor-pointer font-size-0 ml-8px">
-      <TheIcon icon="carbon:play-outline" :size="28" color="#607d8b" />
+      <AppIcon icon="carbon:play-outline" :size="28" color="#607d8b" />
     </div>
   </div>
 </template>

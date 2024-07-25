@@ -1,8 +1,10 @@
-export { default as TheHidden } from './TheHidden';
-export * from './TheHidden';
+export { default as AppHidden } from './AppHidden';
+export * from './AppHidden';
 
-export { default as TheIcon } from './TheIcon';
-export * from './TheIcon';
+export { default as AppIcon } from './AppIcon';
+export * from './AppIcon';
 
-export { default as TheIconButton } from './TheIconButton';
-export * from './TheIconButton';
+export { default as AppLogo } from './AppLogo';
+
+export { default as IconButton } from './IconButton';
+export * from './IconButton';

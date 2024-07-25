@@ -1,6 +1,6 @@
 import type { Ref } from 'vue';
 import { inject, ref } from 'vue';
-import { createInjectionKey } from '~/utils';
+import { createInjectionKey } from '@/utils';
 
 export const themeModeContextKey = createInjectionKey<Ref<'light' | 'dark'>>('ThemeModeContext');
 

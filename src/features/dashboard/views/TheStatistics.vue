@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { TheIcon } from '~/components';
+import { AppIcon } from '@/components';
 
 defineOptions({ name: 'TheStatistics', inheritAttrs: false });
 
@@ -44,7 +44,7 @@ const FAKE_DATA = [
     <div v-for="item in FAKE_DATA" :key="item.key" class="col-span-full md:col-span-6 xl:col-span-3">
       <NCard :bordered="false" size="small" segmented class="styled-card">
         <div class="flex-y-center justify-between">
-          <TheIcon
+          <AppIcon
             :icon="item.icon"
             :size="32"
             color="#90a7b3"
@@ -55,7 +55,7 @@ const FAKE_DATA = [
             </div>
             <div class="font-size-huge flex-y-center text-right">
               <span>{{ item.value }}</span>
-              <TheIcon
+              <AppIcon
                 class="ml-4px"
                 :icon="item.up ? 'carbon:arrow-up' : 'carbon:arrow-down'"
                 :color="item.up ? '#4caf50' : '#f44336'"

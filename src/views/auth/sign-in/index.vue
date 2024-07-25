@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import TheSignInForm from './TheSignInForm.vue';
 
-import { TheIcon } from '~/components';
+import { AppIcon } from '@/components';
 </script>
 
 <template>
@@ -26,7 +26,7 @@ import { TheIcon } from '~/components';
       </NDivider>
       <NButton block size="large" tertiary>
         <template #icon>
-          <TheIcon icon="carbon:logo-wechat" color="#2aae67" />
+          <AppIcon icon="carbon:logo-wechat" color="#2aae67" />
         </template>
         <span>微信登录</span>
       </NButton>

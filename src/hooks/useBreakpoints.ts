@@ -1,5 +1,5 @@
 import { useBreakpoints as useInternalBreakpoints } from '@vueuse/core';
-import { useTheme } from '~/theme';
+import { useTheme } from '@/theme';
 
 export default function useBreakpoints() {
   const theme = useTheme();

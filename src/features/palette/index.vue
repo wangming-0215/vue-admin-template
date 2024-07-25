@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import chroma from 'chroma-js';
 import { computed } from 'vue';
-import { createPalette } from '~/colors';
+import { createPalette } from '@/utils';
 
 const colors = computed(() => {
   return [

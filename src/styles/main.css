@@ -42,10 +42,10 @@ ul, ol {
 
 @font-face {
   font-family: "HarmonyOS Sans Regular";
-  src: url(../assets/font/HarmonyOS_Sans_Regular.ttf) format('truetype');
+  src: url(../assets/fonts/HarmonyOS_Sans_Regular.ttf) format('truetype');
 }
 
 @font-face {
   font-family: "HarmonyOS Sans Medium";
-  src: url(../assets/font/HarmonyOS_Sans_Medium.ttf) format('truetype');
+  src: url(../assets/fonts/HarmonyOS_Sans_Medium.ttf) format('truetype');
 }

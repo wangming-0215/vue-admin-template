@@ -3,11 +3,11 @@ import type { RouteRecordRaw } from 'vue-router';
 const PALETTE_ROUTES: RouteRecordRaw[] = [{
   path: '/palette',
   name: '/palette',
-  component: () => import('~/features/palette/index.vue'),
+  component: () => import('@/features/palette/index.vue'),
   meta: {
     title: '调色板',
     requiresAuth: false,
-    layout: () => import('~/layouts/TheMainLayout/index.vue'),
+    layout: () => import('@/layouts/MainLayout/index.vue'),
     icon: 'carbon:color-palette',
   },
 }];

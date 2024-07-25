@@ -1,14 +1,16 @@
 import {
   type DefaultBodyType,
+  HttpResponse,
   type HttpResponseResolver,
   type PathParams,
   delay,
 } from 'msw';
+import { TokenExpiredError, TokenInvalidError, verify } from './jwt';
 
 export const BASE_URL = '/api/v1';
 
 /** cspell: disable-next-line */
-export const SECRET = '__WANGXIAOMING_02_14__';
+export const SECRET = 'WANGXIAOMING0215';
 
 export function predicate<T extends string>(predicate: T): `${typeof BASE_URL}${T}` {
   return `${BASE_URL}${predicate}`;
@@ -36,23 +38,61 @@ export function withDelay<
   Params extends PathParams,
   RequestBodyType extends DefaultBodyType,
   ResponseBodyType extends DefaultBodyType,
->(resolver: HttpResponseResolver<Params, RequestBodyType, ResponseBodyType>): HttpResponseResolver<Params, RequestBodyType, ResponseBodyType> {
+>(
+  resolver: HttpResponseResolver<Params, RequestBodyType, ResponseBodyType>,
+): HttpResponseResolver<Params, RequestBodyType, ResponseBodyType> {
   return async (...args) => {
     await delay(1000);
     return resolver(...args);
   };
 }
 
-export interface ResponseBody<T> {
-  message: string;
-  data: T;
-  code: string;
-}
+export function withAuth<
+  Params extends PathParams,
+  RequestBodyType extends DefaultBodyType,
+  ResponseBodyType extends DefaultBodyType,
+>(
+  resolver: HttpResponseResolver<Params, RequestBodyType, ResponseBodyType>,
+): HttpResponseResolver<Params, RequestBodyType, ResponseBodyType> {
+  return async (input) => {
+    try {
+      const { request } = input;
 
-export function createResponseBody<T>(data: T, code: string, message: string): ResponseBody<T> {
-  return {
-    message,
-    data,
-    code,
+      const authorization = request.headers.get('Authorization');
+      const token = authorization?.split(' ')[1];
+      if (!token) {
+        const response = {
+          data: null,
+          code: 'ERR_ACCESS_DENIED',
+          message: 'Access Denied',
+        } as unknown as ResponseBodyType;
+        return HttpResponse.json(response, { status: 401 });
+      }
+      const decode = verify(token, SECRET);
+      request.headers.set('userId', decode.userId);
+      return resolver(input);
+    } catch (error) {
+      if (error instanceof TokenInvalidError) {
+        return HttpResponse.json({
+          data: null,
+          code: 'ERR_TOKEN_INVALID',
+          message: 'Token Invalid',
+        } as unknown as ResponseBodyType, { status: 401 });
+      }
+
+      if (error instanceof TokenExpiredError) {
+        return HttpResponse.json({
+          data: null,
+          code: 'ERR_TOKEN_EXPIRED',
+          message: 'Token Expired',
+        } as unknown as ResponseBodyType, { status: 401 });
+      }
+
+      return HttpResponse.json({
+        data: null,
+        code: 'ERR_INTERNAL_SERVER_ERROR',
+        message: 'Internal Server Error',
+      } as unknown as ResponseBodyType, { status: 500 });
+    };
   };
 }
