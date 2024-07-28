@@ -2,7 +2,7 @@ import { factory, primaryKey } from '@mswjs/data';
 
 const db = factory({
   users: {
-    id: primaryKey(String),
+    id: primaryKey(Number),
     email: String,
     password: String,
     nickname: String,

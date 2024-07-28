@@ -12,7 +12,7 @@
     },
     "outDir": "dist",
     "resolveJsonModule": true,
-    "types": ["node"],
+    "types": ["node", "vite/client", "naive-ui/volar"],
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
@@ -22,5 +22,6 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.vue"],
   "exclude": ["dist", "node_modules"]
 }

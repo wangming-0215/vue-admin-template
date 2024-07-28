@@ -1,13 +1,13 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { AppRoute } from '../typings';
 
-const DASHBOARD_ROUTES: RouteRecordRaw[] = [{
+const DASHBOARD_ROUTES: AppRoute[] = [{
   path: '/',
   name: '/',
   component: () => import('@/features/dashboard/views/index.vue'),
+  layout: () => import('@/layouts/MainLayout/index.vue'),
   meta: {
     title: 'Dashboard',
-    requiresAuth: false,
-    layout: () => import('@/layouts/MainLayout/index.vue'),
+    requiresAuth: true,
     icon: 'carbon:laptop',
   },
 }];

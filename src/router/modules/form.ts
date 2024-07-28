@@ -1,10 +1,10 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { AppRoute } from '../typings';
 
-const FORM_ROUTES: RouteRecordRaw[] = [{
+const FORM_ROUTES: AppRoute[] = [{
   path: '/form',
   name: '/form',
+  layout: () => import('@/layouts/MainLayout/index.vue'),
   meta: {
-    layout: () => import('@/layouts/MainLayout/index.vue'),
     title: '表单',
     requiresAuth: false,
     icon: 'carbon:information',

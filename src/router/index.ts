@@ -1,7 +1,8 @@
 import type { App } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import { createMenuFromRoutes, createRoutesWithLayout } from './helpers';
+import { createMenuFromRoutes, setupRoutesWithLayout } from './helpers';
 import { routes } from './routes';
+import { setupAuthGuard } from './guards';
 
 /**
  * 菜单
@@ -15,10 +16,11 @@ export const menus = createMenuFromRoutes(routes);
 export async function setupRouter(app: App) {
   const router = createRouter({
     history: createWebHistory('/'),
-    routes: createRoutesWithLayout(routes),
+    routes: setupRoutesWithLayout(routes),
     scrollBehavior: () => ({ left: 0, top: 0 }),
   });
 
+  setupAuthGuard(router);
   app.use(router);
   await router.isReady();
 }

@@ -57,7 +57,7 @@ function signIn(): HttpResponseResolver<never, LoginRequestBody, LoginResponseBo
     const token = sign(
       { userId: user.id },
       SECRET,
-      { expiredIn: Math.floor(Date.now() / 1000) },
+      { expiredIn: Math.floor(Date.now() / 1000) + 5 },
     );
 
     return HttpResponse.json({
@@ -73,7 +73,30 @@ function signIn(): HttpResponseResolver<never, LoginRequestBody, LoginResponseBo
  */
 function profile(): HttpResponseResolver<never, any, any> {
   return async ({ request }) => {
-    console.log(request.headers.get('userId'));
+    const userId = request.headers.get('userId')!;
+    const user = db.users.findFirst({
+      where: {
+        id: {
+          equals: Number(userId),
+        },
+      },
+    });
+    if (!user) {
+      return HttpResponse.json(
+        {
+          code: 'ERROR_PROFILE',
+          message: '用户不存在',
+          data: null,
+        },
+        { status: 404 },
+      );
+    }
+
+    return HttpResponse.json({
+      code: 'SUCCESS_PROFILE',
+      message: '获取成功',
+      data: Object.assign({}, user, { password: undefined }),
+    });
   };
 }
 
@@ -82,5 +105,8 @@ export const handlers = [
     predicate('/sign-in'),
     withDelay(signIn()),
   ),
-  http.get<never, any, any>(predicate('/profile'), chain(withDelay, withAuth)(profile())),
+  http.get<never, any, any>(
+    predicate('/profile'),
+    chain(withDelay, withAuth)(profile()),
+  ),
 ];

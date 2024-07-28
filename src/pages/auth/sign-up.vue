@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import TheSignUpForm from './TheSignUpForm.vue';
+import { SignUpForm } from '@/features/auth';
 </script>
 
 <template>
@@ -16,7 +16,7 @@ import TheSignUpForm from './TheSignUpForm.vue';
       </div>
     </div>
     <div class="flex-col gap-16px">
-      <TheSignUpForm />
+      <SignUpForm />
     </div>
   </div>
 </template>

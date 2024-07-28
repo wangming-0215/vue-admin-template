@@ -14,9 +14,11 @@ async function setupApp() {
   // document.head.appendChild(meta);
 
   const app = createApp(App);
+
   setupStore(app);
 
   await setupRouter(app);
+
   app.mount('#app');
 }
 

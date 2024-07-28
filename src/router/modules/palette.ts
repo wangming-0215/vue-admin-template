@@ -1,13 +1,13 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { AppRoute } from '../typings';
 
-const PALETTE_ROUTES: RouteRecordRaw[] = [{
+const PALETTE_ROUTES: AppRoute[] = [{
   path: '/palette',
   name: '/palette',
   component: () => import('@/features/palette/index.vue'),
+  layout: () => import('@/layouts/MainLayout/index.vue'),
   meta: {
     title: '调色板',
     requiresAuth: false,
-    layout: () => import('@/layouts/MainLayout/index.vue'),
     icon: 'carbon:color-palette',
   },
 }];

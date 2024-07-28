@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { zhCN } from 'naive-ui';
-import { useThemeStore } from './features/theme/store';
+import { useThemeStore } from './features/theme';
 import { TheThemeProvider } from './theme';
 import AppProvider from './AppProvider.vue';
 

@@ -1,35 +1,43 @@
 import type { RouteRecordRaw } from 'vue-router';
-import type { Menu } from './typings';
+import type { AppRoute, Menu } from './typings';
 
-export function createRoutesWithLayout(routes: RouteRecordRaw[]): RouteRecordRaw[] {
-  function setupLayout(routes: RouteRecordRaw[]) {
+/**
+ * AppRoute -> VueRoute
+ * 构建带layout的route
+ * @param routes
+ */
+export function setupRoutesWithLayout(routes: AppRoute[]): RouteRecordRaw[] {
+  function setupLayout(routes: AppRoute[]) {
     return routes.map((route) => {
-      if (route.children && route.children.length > 0) {
+      if (route.children && route.children.length) {
         route.children = setupLayout(route.children);
       }
 
-      if (route.meta && route.meta.layout) {
-        const { layout } = route.meta;
-        const childRoute = { ...route, path: '' } as RouteRecordRaw;
+      if (route.layout) {
+        const { layout, ...rest } = route;
+        const childRoute = { ...rest, path: '' };
         if (route.children?.length && !route.redirect) {
           childRoute.redirect = route.children[0].path;
         }
+
         return {
           path: route.path,
           component: layout,
           children: [childRoute],
-          meta: {
-            isLayout: true,
-          },
         };
       }
 
       return route;
     });
   }
+
   return setupLayout(routes);
 }
 
+/**
+ * 从路由配置中提取导航目录
+ * @param routes
+ */
 export function createMenuFromRoutes(routes: RouteRecordRaw[]) {
   const menus: Menu[] = [];
 

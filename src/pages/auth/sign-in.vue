@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import TheSignInForm from './TheSignInForm.vue';
+import { SignInForm } from '@/features/auth';
 
 import { AppIcon } from '@/components';
 </script>
@@ -19,7 +19,7 @@ import { AppIcon } from '@/components';
     </div>
     <div class="flex-col gap-24px">
       <div class="flex-col gap-16px">
-        <TheSignInForm />
+        <SignInForm />
       </div>
       <NDivider>
         <span class="font-size-base color-text-secondary font-normal">或者</span>

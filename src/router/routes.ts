@@ -1,10 +1,10 @@
 import type { RouteRecordRaw } from 'vue-router';
 import {
-  AUTH_ROUTES,
   DASHBOARD_ROUTES,
   FORM_ROUTES,
   PALETTE_ROUTES,
 } from './modules';
+import { AUTH_ROUTES } from '@/features/auth';
 
 export const routes: RouteRecordRaw[] = [
   AUTH_ROUTES,
