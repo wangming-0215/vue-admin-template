@@ -6,7 +6,7 @@ const FORM_ROUTES: AppRoute[] = [{
   layout: () => import('@/layouts/MainLayout/index.vue'),
   meta: {
     title: '表单',
-    requiresAuth: false,
+    requiresAuth: true,
     icon: 'carbon:information',
   },
   children: [
@@ -16,7 +16,6 @@ const FORM_ROUTES: AppRoute[] = [{
       component: () => import('@/features/form/basic/index.vue'),
       meta: {
         title: '基础表单',
-        requiresAuth: false,
       },
     },
     {
@@ -25,7 +24,6 @@ const FORM_ROUTES: AppRoute[] = [{
       component: () => import('@/features/form/advanced/index.vue'),
       meta: {
         title: '高级表单',
-        requiresAuth: false,
       },
     },
     {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
-import { Sidebar, SidebarDrawer } from './components';
+import { AppAccount, AppSidebar, AppSidebarDrawer } from './components';
 import { useMenus } from './hooks';
 
 import { ThemeSwitcher } from '@/features/theme';
@@ -35,7 +35,7 @@ watch(isSmallerThanXl, (smaller) => {
 <template>
   <div class="flex-col flex-auto bg-body" :style="cssVars">
     <AppHidden dir="down" breakpoint="lg">
-      <Sidebar
+      <AppSidebar
         class="w-[--sidebar-width]"
         :menus="menus"
         :selected-key="selectedKey"
@@ -44,7 +44,7 @@ watch(isSmallerThanXl, (smaller) => {
       />
     </AppHidden>
     <AppHidden dir="up" breakpoint="lg">
-      <SidebarDrawer
+      <AppSidebarDrawer
         v-model:show="showDrawer"
         :menus="menus"
         :selected-key="selectedKey"
@@ -76,10 +76,7 @@ watch(isSmallerThanXl, (smaller) => {
           </AppHidden>
           <div class="flex-auto" />
           <ThemeSwitcher />
-          <div class="relative">
-            <NAvatar :size="40" round :src="getAssetUrl('avatar.jpg')" />
-            <span class="absolute inline-block size-12px bg-success rd-1/2 border-2px border-solid border-#fff dark:border-[--body-bg-color] bottom-6px right-0" />
-          </div>
+          <AppAccount />
         </div>
       </header>
       <main class="flex-auto flex-col">

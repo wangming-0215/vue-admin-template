@@ -1,6 +1,5 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { jwtDecode } from 'jwt-decode';
 import authService from '../services';
 import type { Profile } from '../models';
 import { createStoreId } from '@/store';

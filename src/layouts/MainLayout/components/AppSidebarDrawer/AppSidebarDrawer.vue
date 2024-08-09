@@ -2,13 +2,13 @@
 import type { MenuOption } from 'naive-ui';
 import { AppLogo } from '@/components';
 
-export interface SidebarDrawerProps {
+export interface AppSidebarDrawerProps {
   menus?: MenuOption[];
   selectedKey?: string;
 }
 
-defineOptions({ name: 'SidebarDrawer', inheritAttrs: false });
-defineProps<SidebarDrawerProps>();
+defineOptions({ name: 'AppSidebarDrawer', inheritAttrs: false });
+defineProps<AppSidebarDrawerProps>();
 
 const show = defineModel<boolean>('show', { default: false });
 </script>

@@ -6,6 +6,7 @@ export function setupDatabase() {
     email: 'xiaoming@test.com',
     nickname: '汪小明',
     password: 'xiaoming@test.com',
+    avatar: 'https://picsum.photos/seed/xiaoming@test.com/160/160',
   });
 }
 

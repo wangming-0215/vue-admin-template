@@ -1,7 +1,6 @@
-export default class Profile {
-  constructor(
-    public id: number,
-    public nickname: string,
-    public email: string,
-  ) {}
+export default interface Profile {
+  id: number;
+  email: string;
+  nickname: string;
+  avatar: string;
 }

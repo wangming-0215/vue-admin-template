@@ -6,6 +6,7 @@ const db = factory({
     email: String,
     password: String,
     nickname: String,
+    avatar: String,
   },
 });
 

@@ -1,5 +1,7 @@
-export { default as Sidebar } from './Sidebar';
-export * from './Sidebar';
+export { default as AppSidebar } from './AppSidebar';
+export * from './AppSidebar';
 
-export { default as SidebarDrawer } from './SidebarDrawer';
-export * from './SidebarDrawer';
+export { default as AppSidebarDrawer } from './AppSidebarDrawer';
+export * from './AppSidebarDrawer';
+
+export { default as AppAccount } from './AppAccount';

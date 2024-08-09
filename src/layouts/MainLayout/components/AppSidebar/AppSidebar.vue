@@ -2,15 +2,15 @@
 import type { MenuOption } from 'naive-ui';
 import { AppLogo } from '@/components';
 
-export interface SidebarProps {
+export interface AppSidebarProps {
   menus?: MenuOption[];
   selectedKey?: string;
   collapsed?: boolean;
   collapsedWidth?: number;
 }
 
-defineOptions({ name: 'Sidebar', inheritAttrs: false });
-defineProps<SidebarProps>();
+defineOptions({ name: 'AppSidebar', inheritAttrs: false });
+defineProps<AppSidebarProps>();
 </script>
 
 <template>

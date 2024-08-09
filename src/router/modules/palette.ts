@@ -7,7 +7,7 @@ const PALETTE_ROUTES: AppRoute[] = [{
   layout: () => import('@/layouts/MainLayout/index.vue'),
   meta: {
     title: '调色板',
-    requiresAuth: false,
+    requiresAuth: true,
     icon: 'carbon:color-palette',
   },
 }];
