@@ -1,5 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+import { jwtDecode } from 'jwt-decode';
 import authService from '../services';
 import type { Profile } from '../models';
 import { createStoreId } from '@/store';
@@ -9,7 +10,30 @@ import { StorageKeys } from '@/constants';
 const storeId = createStoreId('auth');
 
 function getToken() {
-  return storage.get<string>(StorageKeys.AccessToken) ?? '';
+  const token = storage.get<string>(StorageKeys.AccessToken);
+  if (token) {
+    try {
+      const payload = jwtDecode(token);
+      const { exp } = payload;
+      if (exp && Math.floor(Date.now() / 1000) <= exp)
+        return token;
+
+      storage.remove(StorageKeys.AccessToken);
+      return '';
+    } catch {
+      storage.remove(StorageKeys.AccessToken);
+      return '';
+    }
+  }
+
+  return '';
+}
+
+interface SignUpOptions {
+  email: string;
+  nickname: string;
+  password: string;
+  confirm_password: string;
 }
 
 const useAuthStore = defineStore(storeId, () => {
@@ -38,12 +62,21 @@ const useAuthStore = defineStore(storeId, () => {
     profileRef.value = user;
   }
 
+  /**
+   * 注册
+   * @param options
+   */
+  async function signUp(options: SignUpOptions) {
+    return authService.signUp(options);
+  }
+
   return {
     token: tokenRef,
     profile: profileRef,
-    signIn,
-    getProfile,
     hasLoggedIn,
+    signIn,
+    signUp,
+    getProfile,
   };
 });
 

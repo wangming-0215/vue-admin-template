@@ -1,12 +1,11 @@
 import type { Router } from 'vue-router';
-import { StorageKeys } from '@/constants';
-import { storage } from '@/utils';
+
 import { useAuthStore } from '@/features/auth';
 
 export default function setupAuthGuard(router: Router) {
-  router.beforeEach((to) => {
+  router.beforeEach(async (to) => {
     const authStore = useAuthStore();
-    const hasLoggedIn = Boolean(storage.get(StorageKeys.AccessToken));
+    const hasLoggedIn = authStore.hasLoggedIn;
     const needLogin = to.meta.requiresAuth;
 
     if (hasLoggedIn && !authStore.profile) {

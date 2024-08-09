@@ -3,7 +3,6 @@ import {
   type HttpResponseResolver,
   http,
 } from 'msw';
-import { chain } from 'radash';
 
 import {
   SECRET,
@@ -67,7 +66,7 @@ const profile: ProfileResolver = async ({ request }) => {
   const user = db.users.findFirst({
     where: {
       id: {
-        equals: Number(userId),
+        equals: userId,
       },
     },
   });
@@ -96,7 +95,9 @@ interface RegisterRequestBody {
   confirm_password: string;
 }
 
-type RegisterResponseBody = ResponseBody<ReturnType<typeof db.users.create>>;
+type RegisterResponseBody = ResponseBody<
+  Omit<ReturnType<typeof db.users.create>, 'password'>
+>;
 type RegisterResolver = HttpResponseResolver<
   never,
   RegisterRequestBody,
@@ -123,7 +124,7 @@ const registerResolver: RegisterResolver = async ({ request }) => {
         message: '邮箱已注册',
         data: null,
       },
-      { status: 403 },
+      { status: 400 },
     );
   }
 
@@ -132,7 +133,7 @@ const registerResolver: RegisterResolver = async ({ request }) => {
   return HttpResponse.json({
     code: 'SUCCESS_RESISTER',
     message: '注册成功',
-    data: newUser,
+    data: Object.assign(newUser, { password: undefined }),
   });
 };
 
@@ -143,7 +144,7 @@ export const handlers = [
   ),
   http.get<never, never, ProfileResponseBody, ApiPath<'/profile'>>(
     predicate('/profile'),
-    chain(withDelay, withAuth)(profile),
+    withDelay(withAuth(profile)),
   ),
   http.post<never, RegisterRequestBody, RegisterResponseBody, ApiPath<'/sign-up'>>(
     predicate('/sign-up'),

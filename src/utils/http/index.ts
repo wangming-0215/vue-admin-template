@@ -18,7 +18,6 @@ export const http = createHttpClient({
   onError(error) {
     if (isAxiosError(error)) {
       if (error.response?.status === 401) {
-        window.$message?.error('登录已过期，请重新登录');
         storage.remove(StorageKeys.AccessToken);
         window.location.reload();
       }

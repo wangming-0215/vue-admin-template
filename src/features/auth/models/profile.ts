@@ -1,5 +1,5 @@
 export default interface Profile {
-  id: number;
+  id: string;
   email: string;
   nickname: string;
   avatar: string;

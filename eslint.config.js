@@ -11,9 +11,9 @@ export default defineConfig(
   },
 ).override('antfu/stylistic/rules', {
   rules: {
-    'curly': ['error', 'multi-line', 'consistent'],
+    // 'curly': ['error', 'multi-line', 'consistent'],
     'style/brace-style': ['error', '1tbs'],
-    'antfu/if-newline': 'off',
+    // 'antfu/if-newline': 'off',
   },
 }).override('antfu/vue/rules', {
   rules: {

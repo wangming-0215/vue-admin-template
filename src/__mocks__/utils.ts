@@ -42,7 +42,7 @@ export function withDelay<
   resolver: HttpResponseResolver<Params, RequestBodyType, ResponseBodyType>,
 ): HttpResponseResolver<Params, RequestBodyType, ResponseBodyType> {
   return async (...args) => {
-    await delay(1000);
+    await delay();
     return resolver(...args);
   };
 }

@@ -1,6 +1,13 @@
 import type { Profile } from '../models';
 import { http } from '@/utils';
 
+interface SignUpRequestBody {
+  nickname: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+}
+
 class AuthService {
   /**
    * 登录
@@ -22,6 +29,19 @@ class AuthService {
    */
   async profile() {
     const response = await http.get<Service.Response<Profile>>('/profile').unwrap();
+    return response.data;
+  }
+
+  /**
+   * 注册
+   * @param body
+   * @returns profile
+   */
+  async signUp(body: SignUpRequestBody) {
+    const response = await http.post<Service.Response<Profile>, SignUpRequestBody>(
+      '/sign-up',
+      { data: body },
+    ).unwrap();
     return response.data;
   }
 }
