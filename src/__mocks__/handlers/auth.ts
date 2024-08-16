@@ -45,7 +45,7 @@ const login: LoginResolver = async ({ request }) => {
   const token = sign(
     { userId: user.id },
     SECRET,
-    { expiredIn: Math.floor(Date.now() / 1000) + 5 },
+    { expiredIn: Math.floor(Date.now() / 1000) + 1 * 60 * 24 },
   );
 
   return HttpResponse.json({
@@ -55,7 +55,9 @@ const login: LoginResolver = async ({ request }) => {
   });
 };
 
-type ProfileResponseBody = ResponseBody<Omit<ReturnType<typeof db.users.findFirst>, 'password'>>;
+type ProfileResponseBody = ResponseBody<
+  Omit<ReturnType<typeof db.users.findFirst>, 'password'>
+>;
 type ProfileResolver = HttpResponseResolver<never, never, ProfileResponseBody>;
 
 /**
@@ -146,7 +148,12 @@ export const handlers = [
     predicate('/profile'),
     withDelay(withAuth(profile)),
   ),
-  http.post<never, RegisterRequestBody, RegisterResponseBody, ApiPath<'/sign-up'>>(
+  http.post<
+    never,
+    RegisterRequestBody,
+    RegisterResponseBody,
+    ApiPath<'/sign-up'>
+  >(
     predicate('/sign-up'),
     withDelay(registerResolver),
   ),
