@@ -35,7 +35,7 @@ export default defineConfig(
             ignoreTrailingComments: false,
             ignoreUrls: true,
             ignoreStrings: false,
-            ignoreTemplateLiterals: false,
+            ignoreTemplateLiterals: true,
             ignoreRegExpLiterals: true,
           },
         ],
