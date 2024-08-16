@@ -1,8 +1,10 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { jwtDecode } from 'jwt-decode';
+
 import authService from '../services';
 import type { Profile } from '../models';
+
 import { createStoreId } from '@/store';
 import { storage } from '@/utils';
 import { StorageKeys } from '@/constants';
@@ -15,12 +17,14 @@ function getToken() {
     try {
       const payload = jwtDecode(token);
       const { exp } = payload;
-      if (exp && Math.floor(Date.now() / 1000) <= exp)
+      if (exp && Math.floor(Date.now() / 1000) <= exp) {
         return token;
+      }
 
       storage.remove(StorageKeys.AccessToken);
       return '';
-    } catch {
+    }
+    catch {
       storage.remove(StorageKeys.AccessToken);
       return '';
     }

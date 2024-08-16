@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import useAuthStore from '../../store';
+
 import { useNaiveFormContext } from '@/hooks';
 import { withHandleError } from '@/utils';
 
@@ -46,12 +47,26 @@ const submit = withHandleError(
       <NInput v-model:value="model.email" placeholder="邮箱" />
     </NFormItem>
     <NFormItem label="密码" path="password">
-      <NInput v-model:value="model.password" placeholder="密码" type="password" show-password-on="click" />
+      <NInput
+        v-model:value="model.password"
+        placeholder="密码"
+        type="password"
+        show-password-on="click"
+      />
     </NFormItem>
-    <NButton type="primary" block size="large" attr-type="submit" :loading="isSubmitting">
+    <NButton
+      type="primary"
+      block
+      size="large"
+      attr-type="submit"
+      :loading="isSubmitting"
+    >
       登录
     </NButton>
-    <RouterLink to="#" class="color-primary decoration-none hover:decoration-underline font-size-base">
+    <RouterLink
+      to="#"
+      class="font-size-base color-primary decoration-none hover:decoration-underline"
+    >
       忘记密码?
     </RouterLink>
   </NForm>

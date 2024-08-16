@@ -30,6 +30,9 @@ export function createPalette(color: string) {
  * @param background
  * @returns contrast ratio
  */
-export function getContrastRatio(foreground: string, background: string): number {
+export function getContrastRatio(
+  foreground: string,
+  background: string,
+): number {
   return chroma.contrast(foreground, background);
 }
