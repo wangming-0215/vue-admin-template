@@ -3,14 +3,14 @@ import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import type { FormInst, FormItemInst, FormItemRule, FormRules } from 'naive-ui';
 
-import useAuthStore from '../../store';
-
 import {
   createPatternRule,
   createRequiredRule,
   getErrorMessage,
 } from '@/utils';
 import Regexps from '@/constants/regexps';
+
+import useAuthStore from '../../store';
 
 interface FormValues {
   nickname: string;

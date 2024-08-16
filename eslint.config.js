@@ -114,6 +114,23 @@ export default defineConfig(
           'error',
           {
             'newlines-between': 'always',
+            'pathGroups': [
+              {
+                pattern: '@/**',
+                group: 'parent',
+                position: 'before',
+              },
+              {
+                pattern: '../**',
+                group: 'parent',
+                position: 'after',
+              },
+              {
+                pattern: './**',
+                group: 'sibling',
+                position: 'after',
+              },
+            ],
           },
         ],
       },

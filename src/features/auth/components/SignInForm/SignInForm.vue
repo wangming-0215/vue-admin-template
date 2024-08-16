@@ -2,10 +2,10 @@
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import useAuthStore from '../../store';
-
 import { useNaiveFormContext } from '@/hooks';
 import { withHandleError } from '@/utils';
+
+import useAuthStore from '../../store';
 
 interface FormValues {
   email: string;
