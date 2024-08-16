@@ -1,4 +1,5 @@
 import { type GlobalThemeOverrides, darkTheme, lightTheme } from 'naive-ui';
+
 import { type Breakpoints, createBreakpoints } from './breakpoints';
 import { createPalette } from './palette';
 
@@ -100,7 +101,9 @@ interface ThemeOptions {
  * naive ui 主题
  * @returns theme
  */
-export default function createTheme(options?: Partial<ThemeOptions>): GlobalThemeOverrides {
+export default function createTheme(
+  options?: Partial<ThemeOptions>,
+): GlobalThemeOverrides {
   const { mode = 'light' } = options || {};
 
   if (mode === 'dark') {

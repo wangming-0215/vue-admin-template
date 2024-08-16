@@ -3,7 +3,7 @@ import { zhCN } from 'naive-ui';
 
 import AppProvider from './AppProvider.vue';
 import { useThemeStore } from './features/theme';
-import { TheThemeProvider } from './theme';
+import { AppThemeProvider } from './theme';
 
 const themeStore = useThemeStore();
 </script>
@@ -11,9 +11,9 @@ const themeStore = useThemeStore();
 <template>
   <NConfigProvider :locale="zhCN" preflight-style-disabled abstract>
     <AppProvider>
-      <TheThemeProvider :mode="themeStore.themeMode">
+      <AppThemeProvider :mode="themeStore.themeMode">
         <RouterView />
-      </TheThemeProvider>
+      </AppThemeProvider>
     </AppProvider>
   </NConfigProvider>
 </template>

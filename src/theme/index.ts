@@ -1,6 +1,6 @@
 import type { GlobalThemeOverrides } from 'naive-ui';
 
-export { default as TheThemeProvider } from './TheThemeProvider';
+export { default as AppThemeProvider } from './AppThemeProvider';
 
 export { default as useTheme } from './useTheme';
 export { default as useThemeMode } from './useThemeMode';

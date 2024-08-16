@@ -2,9 +2,9 @@ import type { PropType } from 'vue';
 import { computed, defineComponent, provide, toRef, watch } from 'vue';
 import type { GlobalThemeOverrides } from 'naive-ui';
 import { NConfigProvider, darkTheme } from 'naive-ui';
+
 import createTheme from './createTheme';
 import { themeModeContextKey } from './useThemeMode';
-
 import { type PaletteType, scenes } from './palette';
 
 /**
@@ -41,7 +41,8 @@ function addThemeVarsToHtml(vars: Record<string, string | number | undefined>) {
   const styles: string[] = [];
   Object.keys(vars).forEach((key) => {
     const value = vars[key];
-    if (value === undefined) return;
+    if (value === undefined)
+      return;
 
     const cssVarKey = generateCssVarKey(key);
     styles.push(`${cssVarKey}: ${vars[key]}`);
@@ -62,16 +63,22 @@ function toggleDarkMode(darkMode = false) {
   const DARK_CLASS = 'dark';
   if (darkMode) {
     document.documentElement.classList.add(DARK_CLASS);
-  } else {
+  }
+  else {
     document.documentElement.classList.remove(DARK_CLASS);
   }
 }
 
-function getPaletteFromToken(token: GlobalThemeOverrides, type: PaletteType = 'primary') {
+function getPaletteFromToken(
+  token: GlobalThemeOverrides,
+  type: PaletteType = 'primary',
+) {
   return scenes.reduce((acc, scene) => {
     const color = token.common?.[`${type}Color${scene}`];
     if (color) {
-      const key = [type, 'color', scene.toLowerCase()].filter(t => !!t).join('-');
+      const key = [type, 'color', scene.toLowerCase()]
+        .filter(t => !!t)
+        .join('-');
       acc[key] = color;
     }
     return acc;
@@ -79,7 +86,7 @@ function getPaletteFromToken(token: GlobalThemeOverrides, type: PaletteType = 'p
 }
 
 export default defineComponent({
-  name: 'TheThemeProvider',
+  name: 'AppThemeProvider',
   inheritAttrs: false,
   props: {
     mode: {

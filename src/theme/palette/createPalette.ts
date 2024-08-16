@@ -1,4 +1,5 @@
 import { darkTheme, lightTheme } from 'naive-ui';
+
 import {
   type PaletteScene,
   type PaletteType,
@@ -17,7 +18,11 @@ function getDefaultColor(
   return token[`${type}Color${scene}`];
 }
 
-function getPaletteColors(type: PaletteType, palette: Partial<PaletteColors>, mode: 'light' | 'dark' = 'light') {
+function getPaletteColors(
+  type: PaletteType,
+  palette: Partial<PaletteColors>,
+  mode: 'light' | 'dark' = 'light',
+) {
   return scenes.reduce((colors, scene) => {
     const key: PaletteColorsKey = `${type}Color${scene}`;
     return {
@@ -34,6 +39,7 @@ export interface PaletteOptions extends Partial<PaletteColors> {
 export default function createPalette(palette: PaletteOptions) {
   const { mode = 'light', ...others } = palette;
 
+  // #ff9500
   const primary = getPaletteColors('primary', others, mode);
   const info = getPaletteColors('info', others, mode);
   const success = getPaletteColors('success', others, mode);
