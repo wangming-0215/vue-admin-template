@@ -72,7 +72,7 @@ export default defineConfig(
             ignoreStrings: false,
             ignoreTemplateLiterals: false,
             ignoreRegExpLiterals: false,
-            ignoreHTMLAttributeValues: false,
+            ignoreHTMLAttributeValues: true,
             ignoreHTMLTextContents: false,
           },
         ],

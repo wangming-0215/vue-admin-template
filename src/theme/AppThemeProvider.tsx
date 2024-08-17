@@ -1,7 +1,6 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, provide, toRef, watch } from 'vue';
 import { NConfigProvider, darkTheme } from 'naive-ui';
-import { omit } from 'radash';
 
 import { themeModeContextKey } from './useTheme';
 import type { Theme } from './types';
