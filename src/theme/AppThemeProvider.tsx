@@ -94,7 +94,7 @@ export default defineComponent({
           window.__NAIVE_UI_THEME_TOKEN__ = overrides.common;
         }
 
-        const { name, breakpoints, ...rest } = overrides.common ?? {};
+        const { name, breakpoints, ...token } = overrides.common ?? {};
 
         addThemeVarsToHtml({
           ...(breakpoints && {
@@ -105,7 +105,7 @@ export default defineComponent({
             'screenXl': `${breakpoints.values.xl}px`,
             'screen-2xl': `${breakpoints.values['2xl']}px`,
           }),
-          ...rest,
+          ...token,
           // ...(token && {
           //   'primary-color': token.primaryColor,
           //   'primary-color-hover': token.primaryColorHover,

@@ -98,9 +98,10 @@ export default defineConfig<Theme>({
       ...palette,
       body: 'var(--body-bg-color)',
       text: {
-        primary: 'var(--text-color-primary)',
-        regular: 'var(--text-color-regular)',
-        secondary: 'var(--text-color-secondary)',
+        base: 'var(--text-color-base)',
+        color1: 'var(--text-color1)',
+        color2: 'var(--text-color2)',
+        color3: 'var(--text-color3)',
         disabled: 'var(--text-color-disabled)',
       },
       border: 'var(--border-color)',
