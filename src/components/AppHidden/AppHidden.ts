@@ -4,6 +4,7 @@ import {
   defineComponent,
 } from 'vue';
 import { useMediaQuery } from '@vueuse/core';
+
 import { type Breakpoint, useTheme } from '@/theme';
 
 const appHiddenProps = {

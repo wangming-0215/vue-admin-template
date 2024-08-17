@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { AppContainer } from '@/components';
+
 import TheStatistics from './TheStatistics.vue';
 import TheNewSongList from './TheNewSongList.vue';
 import TheHotSongList from './TheHotSongList.vue';
@@ -7,7 +9,7 @@ import TheProjectNews from './TheProjectNews.vue';
 </script>
 
 <template>
-  <div class="box box-max-w-2xl p-16px sm:p-24px flex-col gap-16px">
+  <AppContainer class="flex-col gap-16px p-16px sm:p-24px">
     <TheStatistics />
     <div class="grid grid-cols-12 gap-16px">
       <div class="col-span-full xl:col-span-4">
@@ -39,5 +41,5 @@ import TheProjectNews from './TheProjectNews.vue';
         </div>
       </div>
     </div>
-  </div>
+  </AppContainer>
 </template>

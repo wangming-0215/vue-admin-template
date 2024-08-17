@@ -10,7 +10,12 @@ type Shade = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export function createPalette(color: string) {
   const colors = [
     chroma.scale(['#fff', color]).mode('hsl').correctLightness(true).colors(7),
-    chroma.scale([color, '#000']).mode('hsl').correctLightness(true).colors(7).slice(1),
+    chroma
+      .scale([color, '#000'])
+      .mode('hsl')
+      .correctLightness(true)
+      .colors(7)
+      .slice(1),
   ]
     .flat()
     .slice(1, -1);

@@ -19,7 +19,11 @@ interface LoginRequestBody {
   password: string;
 }
 type LoginResponseBody = ResponseBody<string>;
-type LoginResolver = HttpResponseResolver<never, LoginRequestBody, LoginResponseBody>;
+type LoginResolver = HttpResponseResolver<
+  never,
+  LoginRequestBody,
+  LoginResponseBody
+>;
 
 /**
  * 登录

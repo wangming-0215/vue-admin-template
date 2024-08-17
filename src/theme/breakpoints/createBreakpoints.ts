@@ -1,12 +1,4 @@
-export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-export interface Breakpoints {
-  keys: Breakpoint[];
-  values: { [key in Breakpoint]: number };
-  up: (key: Breakpoint) => string;
-  down: (key: Breakpoint) => string;
-  between: (start: Breakpoint, end: Breakpoint) => string;
-  only: (key: Breakpoint) => string;
-}
+import type { Breakpoint, Breakpoints } from '../types';
 
 /**
  * 生成断点

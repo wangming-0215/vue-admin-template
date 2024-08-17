@@ -11,25 +11,22 @@ export default defineConfig(
     stylistic: {
       semi: true,
     },
-    typescript: {
-      tsconfigPath: './tsconfig.json',
-    },
-
+    typescript: true,
   },
 )
   .override(
     'antfu/stylistic/rules',
     {
-      files: ['**/*.js', '**/*.ts', '**/*.tsx', '**/*.jsx'],
       rules: {
         // 'curly': ['error', 'multi-line', 'consistent'],
-        // 'style/brace-style': ['error', '1tbs'],
+        'style/brace-style': ['error', '1tbs'],
+        'style/operator-linebreak': ['error', 'after'],
         'style/max-len': [
           'error',
           {
-            code: 80,
+            code: 120,
             tabWidth: 2,
-            comments: 80,
+            comments: 120,
             ignorePattern: '',
             ignoreComments: false,
             ignoreTrailingComments: false,
@@ -46,6 +43,7 @@ export default defineConfig(
   .override(
     'antfu/vue/rules',
     {
+      files: ['**/*.vue'],
       rules: {
         'vue/html-self-closing': [
           'error',
@@ -59,20 +57,21 @@ export default defineConfig(
             math: 'always',
           },
         ],
+        'style/max-len': 'off',
         'vue/max-len': [
           'error',
           {
-            code: 80,
-            template: 80,
+            code: 120,
+            template: 120,
             tabWidth: 2,
-            comments: 80,
-            ignorePattern: '^\\s*class="',
+            comments: 120,
+            ignorePattern: '',
             ignoreComments: false,
             ignoreTrailingComments: false,
             ignoreUrls: true,
             ignoreStrings: false,
             ignoreTemplateLiterals: false,
-            ignoreRegExpLiterals: true,
+            ignoreRegExpLiterals: false,
             ignoreHTMLAttributeValues: false,
             ignoreHTMLTextContents: false,
           },
@@ -95,14 +94,10 @@ export default defineConfig(
             },
           },
         ],
-      },
-    },
-  )
-  .override(
-    'antfu/typescript/rules-type-aware',
-    {
-      rules: {
-        'ts/strict-boolean-expressions': 'off',
+        'vue/operator-linebreak': [
+          'error',
+          'after',
+        ],
       },
     },
   )

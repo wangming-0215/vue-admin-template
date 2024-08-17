@@ -22,6 +22,10 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.vue"],
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "./**/*.vue",
+  ],
   "exclude": ["dist", "node_modules"]
 }

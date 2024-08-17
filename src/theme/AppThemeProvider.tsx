@@ -1,11 +1,11 @@
 import type { PropType } from 'vue';
 import { computed, defineComponent, provide, toRef, watch } from 'vue';
-import type { GlobalThemeOverrides } from 'naive-ui';
 import { NConfigProvider, darkTheme } from 'naive-ui';
+import { omit } from 'radash';
 
+import { themeModeContextKey } from './useTheme';
+import type { Theme } from './types';
 import createTheme from './createTheme';
-import { themeModeContextKey } from './useThemeMode';
-import { type PaletteType, scenes } from './palette';
 
 /**
  * 创建 style 标签
@@ -18,18 +18,13 @@ function createStyleTag() {
   return style;
 }
 
-/**
- * 生成 css 变量 key
- * @param key
- * @returns the key of css variable
- */
 function generateCssVarKey(key: string) {
   return `--${
     key
-    .replace(/[A-Z]/g, match => ` ${match.toLowerCase()}`)
-    .split(' ')
-    .filter(t => !!t)
-    .join('-')
+      .replace(/[A-Z]/g, match => ` ${match.toLowerCase()}`)
+      .split(' ')
+      .filter(t => !!t)
+      .join('-')
   }`;
 }
 
@@ -63,26 +58,9 @@ function toggleDarkMode(darkMode = false) {
   const DARK_CLASS = 'dark';
   if (darkMode) {
     document.documentElement.classList.add(DARK_CLASS);
-  }
-  else {
+  } else {
     document.documentElement.classList.remove(DARK_CLASS);
   }
-}
-
-function getPaletteFromToken(
-  token: GlobalThemeOverrides,
-  type: PaletteType = 'primary',
-) {
-  return scenes.reduce((acc, scene) => {
-    const color = token.common?.[`${type}Color${scene}`];
-    if (color) {
-      const key = [type, 'color', scene.toLowerCase()]
-        .filter(t => !!t)
-        .join('-');
-      acc[key] = color;
-    }
-    return acc;
-  }, {} as Record<string, string | undefined>);
 }
 
 export default defineComponent({
@@ -93,10 +71,16 @@ export default defineComponent({
       type: String as PropType<'light' | 'dark'>,
       default: 'light',
     },
+    themeOverrides: {
+      type: Object as PropType<Theme>,
+      default: undefined,
+    },
   },
   setup(props) {
     const theme = computed(() => props.mode === 'dark' ? darkTheme : null);
-    const themeOverrides = computed(() => createTheme({ mode: props.mode }));
+    const themeOverrides = computed(() =>
+      createTheme(props.mode, props.themeOverrides),
+    );
 
     provide(themeModeContextKey, toRef(() => props.mode));
 
@@ -104,51 +88,69 @@ export default defineComponent({
       toggleDarkMode(mode === 'dark');
     }, { immediate: true });
 
-    watch(themeOverrides, (overrides) => {
-      if (import.meta.env.MODE === 'development') {
-        window.__NAIVE_UI_THEME_TOKEN__ = themeOverrides.value.common;
-      }
+    watch(
+      themeOverrides,
+      (overrides) => {
+        if (import.meta.env.MODE === 'development') {
+          window.__NAIVE_UI_THEME_TOKEN__ = overrides.common;
+        }
 
-      const token = overrides.common;
-      const breakpoints = token?.breakpoints?.values;
+        const { name, breakpoints, ...rest } = overrides.common ?? {};
 
-      addThemeVarsToHtml({
-        // ...getPaletteFromThemeToken(overrides.common),
-        ...(breakpoints && {
-          'screen-xs': `${breakpoints.xs}px`,
-          'screen-sm': `${breakpoints.sm}px`,
-          'screen-md': `${breakpoints.md}px`,
-          'screen-lg': `${breakpoints.lg}px`,
-          'screen-xl': `${breakpoints.xl}px`,
-          'screen-2xl': `${breakpoints['2xl']}px`,
-        }),
-        ...(token && {
-          ...getPaletteFromToken(overrides, 'primary'),
-          ...getPaletteFromToken(overrides, 'info'),
-          ...getPaletteFromToken(overrides, 'success'),
-          ...getPaletteFromToken(overrides, 'warning'),
-          ...getPaletteFromToken(overrides, 'error'),
-          'body-bg-color': token.bodyColor,
-          'font-family': token.fontFamily,
-          'font-size-small': token.fontSizeSmall,
-          'base-font-size': token.fontSize,
-          'font-size-medium': token.fontSizeMedium,
-          'font-size-large': token.fontSizeLarge,
-          'font-size-huge': token.fontSizeHuge,
-          'text-color-primary': token.textColor1,
-          'text-color-regular': token.textColor2,
-          'text-color-secondary': token.textColor3,
-          'text-color-disabled': token.textColorDisabled,
-          'shadow-small': token.boxShadow1,
-          'shadow-medium': token.boxShadow2,
-          'shadow-large': token.boxShadow3,
-          'border-color': token.borderColor,
-          'divider-color': token.dividerColor,
-          'radius-small': token.borderRadiusSmall,
-          'radius-medium': token.borderRadius,
-        }),
-      });
-    }, { immediate: true });
+        addThemeVarsToHtml({
+          ...(breakpoints && {
+            'screenXs': `${breakpoints.values.xs}px`,
+            'screenSm': `${breakpoints.values.sm}px`,
+            'screenMd': `${breakpoints.values.md}px`,
+            'screenLg': `${breakpoints.values.lg}px`,
+            'screenXl': `${breakpoints.values.xl}px`,
+            'screen-2xl': `${breakpoints.values['2xl']}px`,
+          }),
+          ...rest,
+          // ...(token && {
+          //   'primary-color': token.primaryColor,
+          //   'primary-color-hover': token.primaryColorHover,
+          //   'primary-color-pressed': token.primaryColorPressed,
+          //   'primary-color-suppl': token.primaryColorSuppl,
+          //   'info-color': token.infoColor,
+          //   'info-color-hover': token.infoColorHover,
+          //   'info-color-pressed': token.infoColorPressed,
+          //   'info-color-suppl': token.infoColorSuppl,
+          //   'success-color': token.successColor,
+          //   'success-color-hover': token.successColorHover,
+          //   'success-color-pressed': token.successColorPressed,
+          //   'success-color-suppl': token.successColorSuppl,
+          //   'warning-color': token.warningColor,
+          //   'warning-color-hover': token.warningColorHover,
+          //   'warning-color-pressed': token.warningColorPressed,
+          //   'warning-color-suppl': token.warningColorSuppl,
+          //   'error-color': token.errorColor,
+          //   'error-color-hover': token.errorColorHover,
+          //   'error-color-pressed': token.errorColorPressed,
+          //   'error-color-suppl': token.errorColorSuppl,
+          //   'body-bg-color': token.bodyColor,
+          //   'font-family': token.fontFamily,
+          //   'font-size-small': token.fontSizeSmall,
+          //   'base-font-size': token.fontSize,
+          //   'font-size-medium': token.fontSizeMedium,
+          //   'font-size-large': token.fontSizeLarge,
+          //   'font-size-huge': token.fontSizeHuge,
+          //   'text-color-primary': token.textColor1,
+          //   'text-color-regular': token.textColor2,
+          //   'text-color-secondary': token.textColor3,
+          //   'text-color-disabled': token.textColorDisabled,
+          //   'shadow-small': token.boxShadow1,
+          //   'shadow-medium': token.boxShadow2,
+          //   'shadow-large': token.boxShadow3,
+          //   'border-color': token.borderColor,
+          //   'divider-color': token.dividerColor,
+          //   'radius-small': token.borderRadiusSmall,
+          //   'radius-medium': token.borderRadius,
+          // }),
+        });
+      },
+      { immediate: true },
+    );
 
     return {
       theme,
@@ -162,7 +164,7 @@ export default defineComponent({
         preflightStyleDisabled
         theme={this.theme}
         themeOverrides={this.themeOverrides}
-        breakpoints={this.themeOverrides.common?.breakpoints?.values}
+        breakpoints={this.themeOverrides?.common?.breakpoints?.values}
       >
         {this.$slots.default?.()}
       </NConfigProvider>

@@ -1,4 +1,8 @@
-import { scenes, types } from './constants';
+type NaiveColorType = 'primary' | 'success' | 'error' | 'warning' | 'info';
+type NaiveColorScene = '' | 'Hover' | 'Pressed' | 'Suppl';
+
+export const types: NaiveColorType [] = ['primary', 'success', 'error', 'warning', 'info'];
+export const scenes: NaiveColorScene[] = ['', 'Hover', 'Pressed', 'Suppl'];
 
 export default function getPaletteVars() {
   const vars: Record<string, string> = {};

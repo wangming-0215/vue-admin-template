@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { SignInForm } from '@/features/auth';
-
 import { AppIcon } from '@/components';
 </script>
 
@@ -12,7 +11,7 @@ import { AppIcon } from '@/components';
       </NH1>
       <div class="font-size-base">
         <span>还没有账号?</span>
-        <RouterLink to="/auth/sign-up" class="color-primary decoration-none hover:decoration-underline font-size-base">
+        <RouterLink to="/auth/sign-up" class="font-size-base color-primary decoration-none hover:decoration-underline">
           注册
         </RouterLink>
       </div>
@@ -24,7 +23,7 @@ import { AppIcon } from '@/components';
       <NDivider>
         <span class="font-size-base color-text-secondary font-normal">或者</span>
       </NDivider>
-      <NButton block size="large" tertiary>
+      <NButton size="large" tertiary block>
         <template #icon>
           <AppIcon icon="carbon:logo-wechat" color="#2aae67" />
         </template>

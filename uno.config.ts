@@ -16,6 +16,16 @@ const breakpoints = createBreakpoints();
 const palette = getPaletteVars();
 
 export default defineConfig<Theme>({
+  content: {
+    pipeline: {
+      include: [
+        // the default
+        /\.(vue|[jt]sx|html)($|\?)/,
+        // include js/ts files
+        'src/**/*.{js,ts}',
+      ],
+    },
+  },
   presets: [
     presetUno(),
     presetAttributify(),
@@ -28,14 +38,14 @@ export default defineConfig<Theme>({
     [/^box$/, (_, { theme, rawSelector }) => {
       const selector = toEscapedSelector(rawSelector);
 
-      const mediaQuery = theme.breakpoints
-        ? `@media (min-width:${theme.breakpoints.sm}) {
+      const mediaQuery = theme.breakpoints ?
+        `@media (min-width:${theme.breakpoints.sm}) {
             ${selector} {
                 padding-right: 24px;
                 padding-left: 24px;
             }
-          }`
-        : '';
+          }` :
+        '';
 
       return `
         ${selector} {
@@ -50,8 +60,9 @@ export default defineConfig<Theme>({
         ${mediaQuery}
       `;
     }],
-    [/^box-max-w-(xs|sm|md|lg|xl|2xl)$/, ([, breakpoint], { theme, symbols }) => {
-      if (!theme.breakpoints) return undefined;
+    [/^box-(xs|sm|md|lg|xl|2xl)$/, ([, breakpoint], { theme, symbols }) => {
+      if (!theme.breakpoints)
+        return undefined;
 
       let maxWidth = theme.breakpoints[breakpoint];
       if (breakpoint === 'xs') {
@@ -97,7 +108,7 @@ export default defineConfig<Theme>({
     },
     fontSize: {
       small: 'var(--font-size-small)',
-      base: 'var(--base-font-size)',
+      base: 'var(--font-size)',
       medium: 'var(--font-size-medium)',
       large: 'var(--font-size-large)',
       huge: 'var(--font-size-huge)',

@@ -65,7 +65,8 @@ async function submit() {
     window.$message?.success('注册成功');
     isSubmitting.value = false;
     router.replace('/auth/sign-in');
-  } catch (error) {
+  }
+  catch (error) {
     isSubmitting.value = false;
     window.$message?.error(getErrorMessage(error));
   }
