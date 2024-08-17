@@ -1,10 +1,12 @@
 import type { RouteRecordRaw } from 'vue-router';
+
+import { AUTH_ROUTES } from '@/features/auth';
+
 import {
   DASHBOARD_ROUTES,
   FORM_ROUTES,
   PALETTE_ROUTES,
 } from './modules';
-import { AUTH_ROUTES } from '@/features/auth';
 
 export const routes: RouteRecordRaw[] = [
   AUTH_ROUTES,
@@ -12,16 +14,8 @@ export const routes: RouteRecordRaw[] = [
   PALETTE_ROUTES,
   FORM_ROUTES,
   {
-    path: '/404',
-    name: '/404',
-    component: () => import('@/features/exceptions/PageNotFound.vue'),
-    meta: {
-      hiddenInMenu: true,
-    },
-  },
-  {
     path: '/:pathMatch(.*)*',
-    redirect: '/404',
+    component: () => import('@/features/exceptions/PageNotFound.vue'),
     meta: {
       hiddenInMenu: true,
     },

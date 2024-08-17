@@ -96,7 +96,7 @@ export default defineConfig<Theme>({
   theme: {
     colors: {
       ...palette,
-      body: 'var(--body-bg-color)',
+      body: 'var(--body-color)',
       text: {
         base: 'var(--text-color-base)',
         color1: 'var(--text-color1)',
@@ -118,13 +118,13 @@ export default defineConfig<Theme>({
       base: '1.6',
     },
     boxShadow: {
-      small: 'var(--shadow-small)',
-      large: 'var(--shadow-large)',
-      medium: 'var(--shadow-medium)',
+      small: 'var(--box-shadow1)',
+      large: 'var(--box-shadow3)',
+      medium: 'var(--box-shadow2)',
     },
     borderRadius: {
-      small: 'var(--radius-small)',
-      medium: 'var(--radius-medium)',
+      small: 'var(--border-radius-small)',
+      base: 'var(--border-radius)',
     },
     breakpoints: mapValues(breakpoints.values, value => `${value}px`),
   },

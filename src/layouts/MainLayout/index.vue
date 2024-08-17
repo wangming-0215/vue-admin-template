@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 
-import { AppAccount, AppSidebar, AppSidebarDrawer } from './components';
-import { useMenus } from './hooks';
-
 import { ThemeSwitcher } from '@/features/theme';
 import { AppHidden, IconButton } from '@/components';
 import { useBreakpoints } from '@/hooks';
 import { getAssetUrl } from '@/utils';
+
+import { useMenus } from './hooks';
+import { AppAccount, AppSidebar, AppSidebarDrawer } from './components';
 
 defineOptions({ name: 'MainLayout', inheritAttrs: false });
 
@@ -50,9 +50,9 @@ watch(isSmallerThanXl, (smaller) => {
         :selected-key="selectedKey"
       />
     </AppHidden>
-    <div class="flex-auto flex-col lg:pl-[--sidebar-width] transition-all">
-      <header class="sticky top-0 left-0 w-full bg-#fff dark:bg-[--body-bg-color] z-1001">
-        <div class="min-h-56px px-16px lg:px-24px py-8px flex flex-y-center border-b-solid gap-x-16px">
+    <div class="flex-col flex-auto transition-all lg:pl-[--sidebar-width]">
+      <header class="sticky left-0 top-0 z-1001 w-full bg-#fff dark:bg-[--body-color]">
+        <div class="min-h-56px flex flex-y-center gap-x-16px border-b-solid px-16px py-8px lg:px-24px">
           <AppHidden dir="up" breakpoint="lg">
             <IconButton
               icon="line-md:menu"
@@ -79,7 +79,7 @@ watch(isSmallerThanXl, (smaller) => {
           <AppAccount />
         </div>
       </header>
-      <main class="flex-auto flex-col">
+      <main class="flex-col flex-auto">
         <RouterView />
       </main>
     </div>
